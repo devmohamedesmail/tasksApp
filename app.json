@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "الاخطبوط الذهبي",
+    "slug": "system",
+    "version": "1.0.9",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "versionCode": 9,
+      "package": "com.mohamedesmail9225.alktaboot"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "expo": {
+      "plugins": [
+        [
+          "expo-image-picker",
+          {
+            "photosPermission": "The app accesses your photos to let you share them with your friends."
+          },
+          "expo-font",
+          {
+            "fonts": ["./assets/fonts/Cairo/static/Cairo-Medium.ttf"]
+          }
+        ]
+      ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ad7b3675-1fbf-4658-92a7-22b38ab6842b"
+      }
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
