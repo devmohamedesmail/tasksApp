@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { PublicStyles } from "../styles/PublicStyles";
 import CustomInput from "../customComponents/CustomInput";
-import CustomButton from "../components/CustomButton";
+import CustomButton from "../customComponents/CustomButton";
 import axios from "axios";
 import CustomImageButton from "../customComponents/CustomImageButton";
 import CustomDateButton from "../customComponents/CustomDateButton";

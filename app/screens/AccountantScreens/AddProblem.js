@@ -5,11 +5,13 @@ import CustomInput from "../../customComponents/CustomInput";
 import { DataContext } from "../../ContextData/DataProvider";
 import CustomPicker from "../../customComponents/CustomPicker";
 import { AuthContextData } from "../../ContextData/AuthContext";
-import CustomButton from "../../components/CustomButton";
+import CustomButton from "../../customComponents/CustomButton";
 import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
-import ToggleLangButton from "../../components/TogglelangButton/ToggleLangButton";
+import { useTheme } from "../../ContextData/ThemeContext";
+import BottomNav from "../../components/BottomNav";
+import Header from "../../components/Header";
 
 export default function AddProblem() {
   const route = useRoute();
@@ -24,6 +26,7 @@ export default function AddProblem() {
   const { auth } = useContext(AuthContextData);
   const [loading, setLoading] = useState(false);
   const {t}=useTranslation()
+  const {theme}=useTheme()
   const {
     branches,
     fetchBranches,
@@ -71,9 +74,11 @@ export default function AddProblem() {
     }
   };
   return (
-    <ScrollView style={PublicStyles.screen}>
+ <View style={{ flex:1 }}>
+     <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
       <View style={PublicStyles.container}>
-        <Text style={PublicStyles.screenTitle}>{t('addproblem')}</Text>
+        <Header />
+        <Text style={[PublicStyles.screenTitle, theme==='light'? PublicStyles.textDarkMode : PublicStyles.textLightMode]} >{t('addproblem')}</Text>
         <CustomInput
           value={step}
           placeholder={t('stagename')}
@@ -116,5 +121,7 @@ export default function AddProblem() {
         )}
       </View>
     </ScrollView>
+    <BottomNav />
+ </View>
   );
 }

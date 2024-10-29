@@ -14,9 +14,8 @@ export default function AccountantCustomButton({
 
     return (
     <TouchableOpacity style={styles.btn} onPress={onpress}>
-
       <Image style={styles.image} source={imageSource} />
-      <Text style={styles.textBtn}>{title}</Text>
+      <Text numberOfLines={1} style={styles.textBtn}>{title}</Text>
     </TouchableOpacity>
   );
 }
@@ -31,15 +30,16 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 20,
     width: "43%",
-    height:150,
+    height:160,
     margin: 10,
   },
   textBtn: {
     marginTop: 10,
     fontWeight: "bold",
+    
   },
   image: {
     width: "100%",
-    height:'80%',
+    height:'100%',
   },
 });

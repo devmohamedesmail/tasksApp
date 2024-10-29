@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     marginBottom:20,
   },
   textBtn:{
-    fontWeight:'bold'
+    fontWeight:'bold',
   },
   focusedBorder:{
     borderColor:PublicStyles.primaryColor,
@@ -92,15 +92,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContent: {
-    width: "80%",
+    width: "95%",
     backgroundColor: "#fff",
-    borderRadius: 4,
-    elevation: 5,
-    borderRadius:20,
-    paddingTop:20,
-    paddingBottom:20,
+    borderRadius:5,
+    paddingTop:10,
+    paddingBottom:10,
+    borderColor:'black',
+    borderWidth:.2,
+    overflow:'hidden',
+    backgroundColor:'#fdfdfd',
   },
   item: {
     padding: 15,
+    alignSelf:'center',
+    color:'white'
   },
 });

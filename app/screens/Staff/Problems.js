@@ -6,10 +6,14 @@ import axios from 'axios';
 import BackendData from '../../utilities/BackendData';
 import InvoiceDetailsItem from '../AccountantScreens/InvoiceDetailsItem';
 import CustomSpinner from '../../customComponents/CustomSpinner';
+import { useTheme } from '../../ContextData/ThemeContext';
+import BottomNav from '../../components/BottomNav';
+import Header from '../../components/Header';
 
 export default function Problems() {
     const { t } = useTranslation();
     const [problems, setProblems] = useState();
+    const { theme } = useTheme();
 
 
 
@@ -28,9 +32,11 @@ export default function Problems() {
 
 
     return (
-        <ScrollView style={PublicStyles.screen}>
+      <View style={{ flex:1 }}>
+          <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
             <View style={PublicStyles.container}>
-                <Text style={PublicStyles.screenTitle}>{t('problems')}</Text>
+                <Header />
+                <Text style={[PublicStyles.screenTitle,theme==='light'? PublicStyles.textDarkMode : PublicStyles.textLightMode]}>{t('problems')}</Text>
                 {problems ? (
                     <>
                     {problems.map((problem)=>(
@@ -51,6 +57,8 @@ export default function Problems() {
                     </>)}
             </View>
         </ScrollView>
+        <BottomNav />
+      </View>
     )
 }
 

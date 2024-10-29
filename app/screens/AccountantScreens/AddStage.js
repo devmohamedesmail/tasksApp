@@ -4,24 +4,24 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableOpacity,
   StyleSheet,
   Alert,
   ActivityIndicator,
 } from "react-native";
 import { PublicStyles } from "../../styles/PublicStyles";
-import CustomInput from "../../customComponents/CustomInput";
+
 import { DataContext } from "../../ContextData/DataProvider";
 import CustomPicker from "../../customComponents/CustomPicker";
 import CustomDateTimePicker from "../../customComponents/CustomDateTimePicker";
-import CustomButton from "../../components/CustomButton";
+import CustomButton from "../../customComponents/CustomButton";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import BackendData from "../../utilities/BackendData";
-import SelectBox from 'react-native-multi-selectbox'
-import { xorBy } from 'lodash'
 import CustomMultiSelect from "../../customComponents/CustomMultiSelect";
 import CustomDateButton from "../../customComponents/CustomDateButton";
+import { useTheme } from "../../ContextData/ThemeContext";
+import BottomNav from "../../components/BottomNav";
+import Header from "../../components/Header";
 
 
 export default function AddStage() {
@@ -38,7 +38,8 @@ export default function AddStage() {
   const { branches, fetchBranches, invoiceTypes, fetchInvoiceTypes, paidMethods, fetchPaidMethods, invoices, fetchInvoices, staff, fetchStaff } = useContext(DataContext);
   const { t } = useTranslation();
   const [carProcess, setCarProcess] = useState()
-  const [stage, setStage] = useState()
+  const [stage, setStage] = useState();
+  const { theme } = useTheme();
 
 
 
@@ -110,7 +111,6 @@ export default function AddStage() {
     setWorkers(newSelection)
     setWorker(selectedIds);
 
-    console.log(worker)
   };
 
 
@@ -121,72 +121,76 @@ export default function AddStage() {
 
 
   return (
-    <ScrollView style={PublicStyles.screen}>
-      <View style={PublicStyles.container}>
-        <Text style={PublicStyles.screenTitle}>{t('addstage')}</Text>
+    <View style={{ flex: 1 }}>
+      <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
+        <View style={PublicStyles.container}>
+          <Header />
+          <Text style={[PublicStyles.screenTitle, theme==='light'? PublicStyles.textDarkMode : PublicStyles.textLightMode]}>{t('addstage')}</Text>
 
-        <CustomPicker
-          items={carProcess}
-          selectedItem={stage}
-          onSelect={handleSelectStage}
-          displayKey="process"
-          selectoption={t('stagename')}
-        />
-
-
-
-        <CustomMultiSelect
-          items={staff}
-          selectedItems={workers}
-          onSelect={handleSelect}
-          displayKey="name" 
-          selectOption={t('selectstaff')}
-
-        />
-
-        
-
-
-
-        <View
-          style={[
-            PublicStyles.row,
-            PublicStyles.justifyBetween,
-            { marginTop: 20, marginBottom: 20 },
-          ]}
-        >
-         
-
-          <CustomDateButton onpress={() => setPickerRdateVisible(true)} title={t('startdate')} />
-
-          <CustomDateTimePicker
-            isVisible={isPickerRdateVisible}
-            onClose={() => setPickerRdateVisible(false)}
-            onConfirm={handleConfirmSdate}
+          <CustomPicker
+            items={carProcess}
+            selectedItem={stage}
+            onSelect={handleSelectStage}
+            displayKey="process"
+            selectoption={t('stagename')}
           />
 
-      
-          <CustomDateButton onpress={() => setPickerDdateVisible(true)}  title={t('enddate')} />
 
-          <CustomDateTimePicker
-            isVisible={isPickerDdateVisible}
-            onClose={() => setPickerDdateVisible(false)}
-            onConfirm={handleConfirmEdate}
+
+          <CustomMultiSelect
+            items={staff}
+            selectedItems={workers}
+            onSelect={handleSelect}
+            displayKey="name"
+            selectOption={t('selectstaff')}
+
           />
+
+
+
+
+
+          <View
+            style={[
+              PublicStyles.row,
+              PublicStyles.justifyBetween,
+              { marginTop: 20, marginBottom: 20 },
+            ]}
+          >
+
+
+            <CustomDateButton onpress={() => setPickerRdateVisible(true)} title={t('startdate')} />
+
+            <CustomDateTimePicker
+              isVisible={isPickerRdateVisible}
+              onClose={() => setPickerRdateVisible(false)}
+              onConfirm={handleConfirmSdate}
+            />
+
+
+            <CustomDateButton onpress={() => setPickerDdateVisible(true)} title={t('enddate')} />
+
+            <CustomDateTimePicker
+              isVisible={isPickerDdateVisible}
+              onClose={() => setPickerDdateVisible(false)}
+              onConfirm={handleConfirmEdate}
+            />
+          </View>
+
+          {loading ? (
+            <CustomButton
+              title={<ActivityIndicator color="white" size="small" />}
+            />
+          ) : (
+            <CustomButton
+              title={t('add')}
+              onpress={() => handleAddInvoieceStage()}
+            />
+          )}
         </View>
-
-        {loading ? (
-          <CustomButton
-            title={<ActivityIndicator color="white" size="small" />}
-          />
-        ) : (
-          <CustomButton
-            title={t('add')}
-            onpress={() => handleAddInvoieceStage()}
-          />
-        )}
-      </View>
-    </ScrollView>
+      </ScrollView>
+      <BottomNav />
+    </View>
   );
 }
 
@@ -203,7 +207,7 @@ const styles = StyleSheet.create({
   dateBtnText: {
     textAlign: "center",
   },
-  selectedText:{
-    backgroundColor:PublicStyles.primaryColor
+  selectedText: {
+    backgroundColor: PublicStyles.primaryColor
   }
 });

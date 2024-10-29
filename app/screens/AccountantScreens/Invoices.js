@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState,useCallback } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import {
   Alert,
   ScrollView,
@@ -17,6 +17,9 @@ import SearchBox from "../../components/SearchBox";
 import { AuthContextData } from "../../ContextData/AuthContext";
 import axios from "axios";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTheme } from "../../ContextData/ThemeContext";
+import BottomNav from "../../components/BottomNav";
+import Header from "../../components/Header";
 
 export default function Invoices() {
   const {
@@ -35,16 +38,24 @@ export default function Invoices() {
   const [filteredInvoices, setFilteredInvoices] = useState();
   const [auth, setauth] = useContext(AuthContextData);
   const [isAscending, setIsAscending] = useState(true);
+  const { theme } = useTheme();
 
   useEffect(() => {
     setFilteredInvoices(invoices);
   }, [invoices]);
 
+
+
   const handleSearch = () => {
-    const result = invoices.filter((invoice) =>
-      invoice.carNo.toLowerCase().includes(searchquery.toLowerCase())
-    );
-    setFilteredInvoices(result);
+    if (!searchquery) {
+      setFilteredInvoices(invoices);
+    } else {
+      const result = invoices.filter((invoice) => {
+        const carNo = invoice.carNo;
+        return carNo && carNo.toLowerCase().includes(searchquery.toLowerCase());
+      });
+      setFilteredInvoices(result);
+    }
   };
 
   const handleDeleteInvoice = async (InvoiceID) => {
@@ -62,19 +73,19 @@ export default function Invoices() {
               text: t("ok"),
               onPress: async () => {
                 try {
-                  
+
                   const response = await axios.delete(
                     `${BackendData.url}delete/invoice/${InvoiceID}`
                   );
                   fetchInvoices();
-                
+
                 } catch (error) {
                   console.log(error)
                   Alert.alert(
                     t('problemhappened'),
-                  
+
                   );
-                
+
                 }
               },
             },
@@ -98,84 +109,105 @@ export default function Invoices() {
   }, [filteredInvoices, isAscending]);
 
   return (
-    <ScrollView style={PublicStyles.screen}>
-      <View style={PublicStyles.container}>
+    <View style={{ flex: 1 }}>
+      <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
+        <View style={PublicStyles.container}>
+          <Header />
 
 
-        <View style={[PublicStyles.row,PublicStyles.justifyBetween,PublicStyles.itemcenter]}>
-            <TouchableOpacity style={styles.arrangeBtn} onPress={sortInvoices}>
-               <MaterialCommunityIcons name="compare-vertical" size={24} color="black" />
-            </TouchableOpacity>
-           <Text style={PublicStyles.screenTitle}>{t("invoices")}</Text>
-           <View>
-               {filteredInvoices && filteredInvoices.length > 0 ? (<Text style={styles.counter}>{filteredInvoices.length}</Text>):(<Text></Text>)}
-           </View>
+          <View style={styles.flex}>
+             <TouchableOpacity style={[styles.arrangeBtn,theme==='light' ? PublicStyles.backgroundlightColor: PublicStyles.backgroundDarkColor]} onPress={sortInvoices}>
+              <MaterialCommunityIcons name="compare-vertical" size={24} color={theme==='light' ? 'white': 'black'} />
+             </TouchableOpacity>
+             {filteredInvoices && filteredInvoices.length > 0 ? (
+                <Text style={[styles.counter,theme==='light' ? PublicStyles.textDarkMode: PublicStyles.textLightMode]}>{filteredInvoices.length}</Text>
+
+             ):(<></>)}
+          </View>
+
+
+
+
+          <SearchBox
+            value={searchquery}
+            onchangetext={(text) => {
+              setSearchQuery(text);
+              handleSearch();
+            }}
+          />
+          {filteredInvoices && filteredInvoices.length > 0 ? (
+            <>
+              {filteredInvoices.length > 0 ? (
+                <>
+                  {filteredInvoices.map((invoice) => (
+                    <InvoiceItem
+                      key={invoice.id}
+                      name={invoice.name}
+                      carNo={invoice.carNo}
+                      carType={invoice.carType}
+                      carService={invoice.carService}
+                      price={invoice.price}
+                      onpressEdit={() =>
+                        navigation.navigate("Edit Invoice", { invoice: invoice })
+                      }
+                      addStage={() =>
+                        navigation.navigate("Add Stage", { invoice: invoice })
+                      }
+                      addProblem={() =>
+                        navigation.navigate("Add Problem", { invoice: invoice })
+                      }
+                      onpressShowInvoice={() =>
+                        navigation.navigate("Invoice Details", {
+                          invoice: invoice,
+                        })
+                      }
+                      onpressDeleteInvoice={() => handleDeleteInvoice(invoice.id)}
+                    />
+                  ))}
+                </>
+              ) : (
+                <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+                  There is No Invoices Found
+                </Text>
+              )}
+            </>
+          ) : (
+            <>
+              <CustomSpinner />
+            </>
+          )}
         </View>
-
-        
-        <SearchBox
-          value={searchquery}
-          onchangetext={(text) => {
-            setSearchQuery(text);
-            handleSearch();
-          }}
-        />
-        {filteredInvoices && filteredInvoices.length > 0 ? (
-          <>
-            {filteredInvoices.length > 0 ? (
-              <>
-                {filteredInvoices.map((invoice) => (
-                  <InvoiceItem
-                    key={invoice.id}
-                    name={invoice.name}
-                    carNo={invoice.carNo}
-                    carType={invoice.carType}
-                    carService={invoice.carService}
-                    price={invoice.price}
-                    onpressEdit={() =>
-                      navigation.navigate("Edit Invoice", { invoice: invoice })
-                    }
-                    addStage={() =>
-                      navigation.navigate("Add Stage", { invoice: invoice })
-                    }
-                    addProblem={() =>
-                      navigation.navigate("Add Problem", { invoice: invoice })
-                    }
-                    onpressShowInvoice={() =>
-                      navigation.navigate("Invoice Details", {
-                        invoice: invoice,
-                      })
-                    }
-                    onpressDeleteInvoice={() => handleDeleteInvoice(invoice.id)}
-                  />
-                ))}
-              </>
-            ) : (
-              <Text style={{ textAlign: "center", fontWeight: "bold" }}>
-                There is No Invoices Found
-              </Text>
-            )}
-          </>
-        ) : (
-          <>
-            <CustomSpinner />
-          </>
-        )}
-      </View>
-    </ScrollView>
+      </ScrollView>
+      <BottomNav />
+    </View>
   );
 }
 
 
 const styles = StyleSheet.create({
-  arrangeBtn:{
-    borderWidth:2,
-    borderColor:PublicStyles.lightColor,
-    borderRadius:10,
-    padding:5
+ 
+  arrangeBtn: {
+    width:35,
+    height:35,
+    borderRadius: 10,
+    padding: 5,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+   
+  },
+  flex:{
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    marginTop:10,
+    marginBottom:10,
   },
   counter:{
-    fontWeight:'bold',
-    fontSize:15,
+    fontSize: 15,
+    fontWeight: "bold",
+    
   }
+  
 })

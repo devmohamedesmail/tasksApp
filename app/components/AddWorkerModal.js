@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import axios from "axios";
-import CustomButton from "./CustomButton";
+import CustomButton from "../customComponents/CustomButton";
 import { AntDesign } from "@expo/vector-icons";
 import { PublicStyles } from "../styles/PublicStyles";
 import { DataContext } from "../ContextData/DataProvider";

@@ -52,7 +52,7 @@ export default function StageProgressBar({ start, end,carNo }) {
       const endDate = parseDate(end);
 
       if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-        console.error("Invalid date format");
+        console.log("Invalid date format");
         return;
       }
 
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: "100%",
-    backgroundColor: PublicStyles.primaryColor,
+    backgroundColor: PublicStyles.primaryDarkColor,
     borderRadius: 5,
     position: "absolute",
     height: 20,

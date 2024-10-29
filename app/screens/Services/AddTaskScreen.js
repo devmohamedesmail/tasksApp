@@ -12,7 +12,7 @@ import { useRoute } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import axios from "axios";
 import CustomPicker from "../../customComponents/CustomPicker";
-import CustomButton from "../../components/CustomButton";
+import CustomButton from "../../customComponents/CustomButton";
 import CustomActionButton from "../../customComponents/CustomActionButton";
 
 export default function AddTaskScreen() {

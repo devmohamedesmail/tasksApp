@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { PublicStyles } from "../styles/PublicStyles";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useTheme } from "../ContextData/ThemeContext";
 
 export default function CustomInput({
   value,
@@ -17,75 +18,97 @@ export default function CustomInput({
 }) {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  return (
-    <View
-      style={[
-        styles.inputContainer,
-        PublicStyles.row,
-        PublicStyles.itemcenter,
-        PublicStyles.justifyBetween,
-        {
-          borderColor: isFocused
-            ? PublicStyles.primaryColor
-            : PublicStyles.lightColor,
-        },
-        { borderWidth: isFocused ? 1 : 1 },
-      ]}
-    >
-      <TextInput
-        value={value}
-        onChangeText={onchangetext}
-        cursorColor={PublicStyles.primaryColor}
-        secureTextEntry={secureTextEntry && !isPasswordVisible}
-        style={{ flex: 1,fontWeight:'bold',color:'black' ,height:30}}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-      />
-      {secureTextEntry && (
-        <TouchableOpacity
-          style={styles.toggleVisibilityButton}
-          onPress={() => setPasswordVisible(!isPasswordVisible)}
-        >
-          {isPasswordVisible ? (
-            <FontAwesome name="eye-slash" size={24} color="black" />
-          ) : (
-            <FontAwesome name="eye" size={24} color="black" />
-          )}
-        </TouchableOpacity>
-      )}
+  const { theme } = useTheme();
 
-      <Text style={[styles.label,{
-          borderColor: isFocused
-            ? PublicStyles.primaryColor
-            : PublicStyles.lightColor,
-        },
-        { borderWidth: isFocused ? 1 : 2 }]}>{placeholder}</Text>
+
+  return (
+    <View >
+      <Text style={[theme === 'light' ? styles.labelLight : styles.labelDark]}>{placeholder}</Text>
+      <View
+        style={[
+          styles.inputContainer,
+          PublicStyles.row,
+          PublicStyles.itemcenter,
+          PublicStyles.justifyBetween,
+          {
+            borderColor: isFocused
+              ? PublicStyles.primaryDarkColor
+              : PublicStyles.lightColor,
+          },
+          { borderWidth: isFocused ? 1 : 1 },
+        ]}
+      >
+        <TextInput
+          value={value}
+          onChangeText={onchangetext}
+          cursorColor={PublicStyles.primaryColor}
+          secureTextEntry={secureTextEntry && !isPasswordVisible}
+          
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          style={[theme === 'light' ? styles.inputLight : styles.inputDark]}
+        />
+        {secureTextEntry && (
+          <TouchableOpacity
+            style={styles.toggleVisibilityButton}
+            onPress={() => setPasswordVisible(!isPasswordVisible)}
+          >
+            {isPasswordVisible ? (
+              <FontAwesome name="eye-slash" size={20} color="black" />
+            ) : (
+              <FontAwesome name="eye" size={20} color="black" />
+            )}
+          </TouchableOpacity>
+        )}
+
+      </View>
     </View>
+
   );
 }
 const styles = StyleSheet.create({
+
   inputContainer: {
     borderColor: 'black',
-    borderWidth: 2,
+    borderWidth: 1,
     width: "100%",
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 40,
-    backgroundColor: "white",
-    position:'relative'
+    paddingLeft: 13,
+    paddingRight: 13,
+    paddingTop: 8,
+    paddingBottom: 8,
+    marginBottom: 20,
+    backgroundColor: "transparent",
+    position: 'relative',
+    elevation: .6
   },
-  label:{
-    position:'absolute',
-    top:-22,
-    left:10,
-    borderWidth:1,
-    borderColor:PublicStyles.lightColor,
-    borderRadius:10,
-    paddingBottom:5,
-    paddingTop:5,
-    paddingRight:10,
-    paddingLeft:10,
-    backgroundColor:'white',
-    fontWeight:'bold'
-  }
+
+  toggleVisibilityButton: {
+    marginRight: 5,
+    marginLeft: 5,
+  },
+  labelLight: {
+    marginRight: 10,
+    marginLeft: 10,
+    marginBottom: 5,
+    color: PublicStyles.primaryDarkColor
+  },
+  labelDark: {
+    marginRight: 10,
+    marginLeft: 10,
+    marginBottom: 5,
+    color: PublicStyles.primaryLightColor
+  },
+
+  inputDark:{
+    color: PublicStyles.primaryLightColor,
+    flex:1,
+    height:30
+  },
+  inputLight:{
+    color: PublicStyles.primaryDarkColor,
+    flex:1,
+    height:30
+  },
+
+
 });

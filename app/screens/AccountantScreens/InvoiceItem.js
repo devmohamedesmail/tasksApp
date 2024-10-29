@@ -1,11 +1,12 @@
 import React from "react";
-import {StyleSheet,Text,View} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { PublicStyles } from "../../styles/PublicStyles";
 import Entypo from "@expo/vector-icons/Entypo";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import CustomActionButton from "../../customComponents/CustomActionButton";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useTranslation } from "react-i18next";
+import { useTheme } from "../../ContextData/ThemeContext";
 
 export default function InvoiceItem({
   id,
@@ -21,9 +22,10 @@ export default function InvoiceItem({
   onpressDeleteInvoice
 }) {
 
-  const{t}=useTranslation();
+  const { t } = useTranslation();
+  const { theme } = useTheme();
   return (
-    <View style={[PublicStyles.col, styles.item]} key={id}>
+    <View style={[PublicStyles.col, styles.item,theme==='light'? PublicStyles.backgroundlightColor : PublicStyles.backgroundwhiteColor ]} key={id}>
       <View
         style={[
           PublicStyles.row,
@@ -33,11 +35,11 @@ export default function InvoiceItem({
 
         ]}
       >
-        <Text style={styles.itemText}>{name}</Text>
-        <Text style={styles.itemText}>{carNo}</Text>
-        <Text style={styles.itemText}>{carType}</Text>
-        <Text style={styles.itemText}>{carService}</Text>
-        <Text style={styles.itemText}>{price}</Text>
+        <Text style={[styles.itemText,theme==='light'? PublicStyles.textLightMode : PublicStyles.textDarkMode]}>{name}</Text>
+        <Text style={[styles.itemText,theme==='light'? PublicStyles.textLightMode : PublicStyles.textDarkMode]}>{carNo}</Text>
+        <Text style={[styles.itemText,theme==='light'? PublicStyles.textLightMode : PublicStyles.textDarkMode]}>{carType}</Text>
+        <Text style={[styles.itemText,theme==='light'? PublicStyles.textLightMode : PublicStyles.textDarkMode]}>{carService}</Text>
+        <Text style={[styles.itemText,theme==='light'? PublicStyles.textLightMode : PublicStyles.textDarkMode]}>{price}</Text>
       </View>
 
       <View
@@ -47,14 +49,14 @@ export default function InvoiceItem({
           PublicStyles.itemcenter,
         ]}
       >
-        
-        
-        <CustomActionButton title={t('addstage')} backgroundColor={PublicStyles.primaryColor} onpress={addStage} />
-        <CustomActionButton title={t('addproblem')} backgroundColor={PublicStyles.primaryColor} onpress={addProblem} />
-        <CustomActionButton icon={ <Entypo name="edit" size={24} color="green" />} backgroundColor={PublicStyles.lightColor} onpress={onpressEdit} />
-        <CustomActionButton icon={<AntDesign name="eyeo" size={24} color="black" />} backgroundColor={PublicStyles.lightColor} onpress={onpressShowInvoice} />
-        <CustomActionButton icon={<EvilIcons name="trash" size={24} color="red" />} backgroundColor={PublicStyles.lightColor} onpress={onpressDeleteInvoice}  />
-        
+
+
+        <CustomActionButton title={t('addstage')} backgroundColor="green" onpress={addStage} />
+        <CustomActionButton title={t('addproblem')} backgroundColor="red" onpress={addProblem} />
+        <CustomActionButton icon={<Entypo name="edit" size={20} color="green" />} backgroundColor={PublicStyles.lightColor} onpress={onpressEdit} />
+        <CustomActionButton icon={<AntDesign name="eyeo" size={20} color="black" />} backgroundColor={PublicStyles.lightColor} onpress={onpressShowInvoice} />
+        <CustomActionButton icon={<EvilIcons name="trash" size={20} color="red" />} backgroundColor={PublicStyles.lightColor} onpress={onpressDeleteInvoice} />
+
       </View>
     </View>
   );
@@ -62,7 +64,6 @@ export default function InvoiceItem({
 
 const styles = StyleSheet.create({
   item: {
-    borderRadius: 20,
     borderColor: PublicStyles.lightColor,
     borderWidth: 1,
     marginBottom: 10,
@@ -70,11 +71,11 @@ const styles = StyleSheet.create({
   },
   itemInfo: {
     marginBottom: 30,
-    flexWrap:'wrap'
+    flexWrap: 'wrap'
   },
   itemText: {
-    fontWeight: "bold",
-    marginRight: 10,
+    fontWeight: "normal",
+    marginRight: 3,
   },
- 
+
 });

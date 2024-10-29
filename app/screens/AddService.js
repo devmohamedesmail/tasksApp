@@ -3,7 +3,7 @@ import {ScrollView,StyleSheet,Text,View,Alert,ActivityIndicator} from "react-nat
 import { PublicStyles } from "../styles/PublicStyles";
 import CustomInput from "../customComponents/CustomInput";
 import axios from "axios";
-import CustomButton from "../components/CustomButton";
+import CustomButton from "../customComponents/CustomButton";
 import CustomImageButton from "../customComponents/CustomImageButton";
 import { ServicesContextData } from "../ContextData/ServicesContext";
 import { DataContext } from "../ContextData/DataProvider";

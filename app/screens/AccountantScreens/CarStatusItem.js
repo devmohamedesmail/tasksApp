@@ -22,7 +22,7 @@ export default function CarStatusItem({
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
-          source={require("../../../assets/images/sportcar.png")}
+          source={require("../../../assets/images/carmodel.png")}
         />
       </View>
       <Text style={styles.stage}>{name}</Text>
@@ -83,16 +83,16 @@ const styles = StyleSheet.create({
 
 
   image: {
-    width: 70,
-    height: 70,
+    width: 100,
+    height: 100,
     borderRadius: 100,
   },
   imageContainer: {
     borderRadius: 300,
     borderWidth: 1,
     borderColor: PublicStyles.lightColor,
-    width: 90,
-    height: 90,
+    width: 100,
+    height: 100,
     overflow: "hidden",
     marginBottom: 10,
     justifyContent: "center",

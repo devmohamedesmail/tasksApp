@@ -1,7 +1,9 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { PublicStyles } from "../../styles/PublicStyles";
+import { useTheme } from "../../ContextData/ThemeContext";
 export default function InvoiceDetailsItem({ title, value }) {
+  const {theme}=useTheme()
   return (
     <View
       style={[
@@ -10,6 +12,7 @@ export default function InvoiceDetailsItem({ title, value }) {
         PublicStyles.row,
         PublicStyles.justifyBetween,
         styles.item,
+        theme==='light'? PublicStyles.backgroundwhiteColor : PublicStyles.backgroundDarkColor
       ]}
     >
       <Text style={styles.title}>{title}</Text>
@@ -29,7 +32,7 @@ const styles = StyleSheet.create({
     },
     title: {
       fontWeight: "bold",
-      color: PublicStyles.primaryColor,
+      color: PublicStyles.textLightMode,
     },
     value: {},
   });

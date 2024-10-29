@@ -8,18 +8,25 @@ import { useNavigation } from "@react-navigation/native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AuthContextData } from "../ContextData/AuthContext";
 import { useTranslation } from "react-i18next";
+import CustomBottomNavBtn from "../customComponents/CustomBottomNavBtn";
+import { useTheme } from "../ContextData/ThemeContext";
+
+
+
 
 export default function BottomNav() {
-  const [activeScreen, setActiveScreen] = useState("Home");
+
   const navigation = useNavigation();
   const [auth, setAuth] = useContext(AuthContextData);
-  const {t}=useTranslation()
+  const { t } = useTranslation()
+  const { theme } = useTheme()
 
 
-  
+
+
 
   return (
-    <View style={styles.navBottom}>
+    <View style={[styles.navBottom, theme === 'light' ? PublicStyles.backgroundlightColor : PublicStyles.backgroundDarkColor]}>
       <View
         style={[
           PublicStyles.container,
@@ -28,139 +35,84 @@ export default function BottomNav() {
           styles.btnContainer,
         ]}
       >
-        <TouchableOpacity
-          style={[
-            PublicStyles.col,
-            PublicStyles.itemcenter,
-            styles.btn,
-            activeScreen === "Home" && styles.activeBtn,
-          ]}
+
+        <CustomBottomNavBtn
+          icon={theme === 'light' ? <AntDesign name="home" size={20} color="white" /> : <AntDesign name="home" size={20} color="black" />}
+          title={t('home')}
           onPress={() => {
-            
+
             if (auth && auth.user) {
-              // Navigate to Login if role is 'user' or null
+
               if (auth.user.role === "user" || auth.user.role === null) {
                 navigation.navigate("Login");
               } else {
                 navigation.navigate("Home");
-                if (setActiveScreen) {
-                  setActiveScreen("Home");
-                }
+               
+              }
+            }
+
+          }} />
+
+
+        <CustomBottomNavBtn
+          icon={theme === 'light' ? <FontAwesome6 name="file-invoice-dollar" size={24} color="white" /> : <FontAwesome6 name="file-invoice-dollar" size={24} color="black" />}
+          title={t('invoices')}
+          onPress={() => {
+
+            if (auth && auth.user) {
+
+              if (auth.user.role === "user" || auth.user.role === null) {
+                navigation.navigate("Login");
+              } else {
+                navigation.navigate("Invoices");
+              
               }
             }
           }}
-        >
-          <AntDesign name="home" size={20} color="white" />
-          <Text style={styles.btnText}>{t('home')}</Text>
-        </TouchableOpacity>
+        />
 
-        <TouchableOpacity
-          style={[
-            PublicStyles.col,
-            PublicStyles.itemcenter,
-            styles.btn,
-            activeScreen === "Accountant" && styles.activeBtn,
-          ]}
+
+
+        <CustomBottomNavBtn
+          icon={theme === 'light' ? <FontAwesome5 name="car-alt" size={24} color="white" /> : <FontAwesome5 name="car-alt" size={24} color="black" />}
+          title={t('carsstatus')}
           onPress={() => {
-            
+
             if (auth && auth.user) {
-             
+
               if (auth.user.role === "user" || auth.user.role === null) {
                 navigation.navigate("Login");
               } else {
-                navigation.navigate("Accountant");
-                if (setActiveScreen) {
-                  setActiveScreen("Accountant");
-                }
+                navigation.navigate("InvoicesData");
+              
               }
-            } 
+            }
           }}
-        >
-          <MaterialIcons name="category" size={24} color="white" />
-          <Text style={styles.btnText}>{t('categories')}</Text>
-        </TouchableOpacity>
+        />
 
-        <TouchableOpacity
-          style={[
-            PublicStyles.col,
-            PublicStyles.itemcenter,
-            styles.btn,
-            activeScreen === "Add Service" && styles.activeBtn,
-          ]}
+
+
+        <CustomBottomNavBtn
+          icon={theme === 'light' ? <AntDesign name="user" size={24} color="white" /> : <AntDesign name="user" size={24} color="black" />}
+          title={t('profile')}
           onPress={() => {
-           
+
             if (auth && auth.user) {
-             
+
               if (auth.user.role === "user" || auth.user.role === null) {
                 navigation.navigate("Login");
               } else {
-                navigation.navigate("Add Service");
-                if (setActiveScreen) {
-                  setActiveScreen("Add Service");
-                }
+                navigation.navigate("Profile");
+                
               }
-            } 
+            }
           }}
-        >
-          <AntDesign
-            name="pluscircle"
-            size={24}
-            color={PublicStyles.lightColor}
-          />
-          <Text style={styles.btnText}>{t('add')}</Text>
-        </TouchableOpacity>
+        />
 
-        <TouchableOpacity
-          style={[
-            PublicStyles.col,
-            PublicStyles.itemcenter,
-            styles.btn,
-            activeScreen === "Tasks" && styles.activeBtn,
-          ]}
-          onPress={() => {
-            
-            if (auth && auth.user) {
-             
-              if (auth.user.role === "user" || auth.user.role === null) {
-                navigation.navigate("Login");
-              } else {
-                navigation.navigate("Tasks");
-                if (setActiveScreen) {
-                  setActiveScreen("Tasks");
-                }
-              }
-            } 
-          }}
-        >
-          <FontAwesome5 name="tasks" size={20} color="white" />
-          <Text style={styles.btnText}>{t('tasks')}</Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[
-            PublicStyles.col,
-            PublicStyles.itemcenter,
-            styles.btn,
-            activeScreen === "Setting" && styles.activeBtn,
-          ]}
-          onPress={() => {
-            
-            if (auth && auth.user) {
-             
-              if (auth.user.role === "user" || auth.user.role === null) {
-                navigation.navigate("Login");
-              } else {
-                navigation.navigate("Setting");
-                if (setActiveScreen) {
-                  setActiveScreen("Setting");
-                }
-              }
-            } 
-          }}
-        >
-          <AntDesign name="setting" size={20} color="white" />
-          <Text style={styles.btnText}>{t('setting')}</Text>
-        </TouchableOpacity>
+
+
+
       </View>
     </View>
   );
@@ -168,41 +120,15 @@ export default function BottomNav() {
 
 const styles = StyleSheet.create({
   navBottom: {
-    height: 70,
+    height: 60,
     alignItems: "center",
     display: "flex",
     justifyContent: "center",
-    backgroundColor: "black",
-    borderRadius: 0,
-    bottom: 0,
     width: "100%",
-    alignSelf: "center",
-    paddingBottom: 10,
-    paddingTop: 30,
+    bottom: 0,
   },
   btnContainer: {
     position: "relative",
   },
-  btn: {
-    // flex:1
-  },
-  btnText: {
-    fontSize: 12,
-    color: "white",
-  },
-  activeBtn: {
-    backgroundColor: PublicStyles.primaryColor,
-    bottom: 30,
-    borderRadius: 100,
-    height: 65,
-    width: 65,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: 10,
-    paddingBottom: 10,
-    borderWidth: 2,
-    borderColor: "white",
-  },
+
 });

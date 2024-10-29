@@ -21,6 +21,8 @@ const styles = StyleSheet.create({
        marginRight:5,
     },
     textBtn:{
-        color:"white"
+        color:"white",
+        fontWeight:'bold',
+        fontSize:10,
     }
 })

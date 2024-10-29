@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { PublicStyles } from "../../styles/PublicStyles";
 import CustomInput from "../../customComponents/CustomInput";
-import CustomButton from "../../components/CustomButton";
+import CustomButton from "../../customComponents/CustomButton";
 import axios from "axios";
 import { AuthContextData } from "../../ContextData/AuthContext";
 import { DataContext } from "../../ContextData/DataProvider";
@@ -18,6 +18,11 @@ import CustomPicker from "../../customComponents/CustomPicker";
 import BackendData from "../../utilities/BackendData";
 import CustomDateTimePicker from "../../customComponents/CustomDateTimePicker";
 import { useTranslation } from "react-i18next";
+import CustomDateButton from "../../customComponents/CustomDateButton";
+import CustomAlert from "../../customComponents/CustomAlert";
+import { useTheme } from "../../ContextData/ThemeContext";
+import Header from "../../components/Header";
+import BottomNav from "../../components/BottomNav";
 
 export default function AddInvoice() {
   const [branch, setBranch] = useState();
@@ -41,7 +46,9 @@ export default function AddInvoice() {
   const [auth, setAuth] = useContext(AuthContextData);
   const [isPickerRdateVisible, setPickerRdateVisible] = useState(false);
   const [isPickerDdateVisible, setPickerDdateVisible] = useState(false);
-  const {t}=useTranslation()
+  const { t } = useTranslation()
+  const {theme}=useTheme();
+
 
   const {
     branches,
@@ -50,13 +57,13 @@ export default function AddInvoice() {
     fetchInvoiceTypes,
     paidMethods,
     fetchPaidMethods,
-    invoices,fetchInvoices,staff,fetchStaff
+    invoices, fetchInvoices, staff, fetchStaff
   } = useContext(DataContext);
 
   const handleAddInvoie = async () => {
-    if (!branch || !invoiceType || !note) {
+    if (!branch || !invoiceType || !note || !carNo || !carType || !carService || !price) {
       Alert.alert(t('validationError'), t('requiredFieldsMissing'));
-      return; 
+      return;
     }
     try {
       setSales(auth.name);
@@ -117,7 +124,7 @@ export default function AddInvoice() {
     }
   }, [auth]);
 
- 
+
 
   const handleSelectInvoiceType = (item) => {
     setInvoiceType(item.type);
@@ -140,138 +147,144 @@ export default function AddInvoice() {
   };
 
   return (
-    <ScrollView style={PublicStyles.screen}>
-      <View style={[PublicStyles.container,{paddingBottom:100}]}>
-        <Text style={PublicStyles.screenTitle}>{t('addinvoice')}</Text>
+   <View style={{ flex:1 }}>
+     <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
+      {auth ? (
+        <View style={[PublicStyles.container, { paddingBottom: 100 }]}>
+          <Header />
+          <Text style={[PublicStyles.screenTitle,theme==='light'? PublicStyles.textDarkMode : PublicStyles.textLightMode ]}>{t('addinvoice')}</Text>
 
-
-        <CustomPicker
-          items={branches}
-          selectedItem={branchItem}
-          onSelect={handleSelectbranch}
-          displayKey="name"
-          selectoption={t("selectbranch")}
-        />
-
-        <CustomPicker
-          items={invoiceTypes}
-          selectedItem={invoiceTypeItem}
-          onSelect={handleSelectInvoiceType}
-          displayKey="type"
-          selectoption={t("selectinvoicetype")}
-        />
-
-       
-
-        <CustomInput
-          placeholder={t("name")}
-          value={name}
-          onchangetext={(text) => setName(text)}
-        />
-        <CustomInput
-          placeholder={t("phone")}
-          value={phone}
-          onchangetext={(text) => setPhone(text)}
-        />
-
-        <CustomInput
-          placeholder={t("address")}
-          value={address}
-          onchangetext={(text) => setAddress(text)}
-        />
-
-        <CustomInput
-          placeholder={t("carno")}
-          value={carNo}
-          onchangetext={(text) => setCarno(text)}
-        />
-
-        <CustomInput
-          placeholder={t("cartype")}
-          value={carType}
-          onchangetext={(text) => setCartype(text)}
-        />
-
-        <CustomInput
-          placeholder={t("carservice")}
-          value={carService}
-          onchangetext={(text) => setService(text)}
-        />
-        <CustomInput
-          placeholder={t("price")}
-          value={price}
-          onchangetext={(text) => setPrice(text)}
-        />
-
-        <CustomInput
-          placeholder={t("description")}
-          value={description}
-          onchangetext={(text) => setCarDescription(text)}
-        />
-        <CustomInput
-          placeholder={t("note")}
-          value={note}
-          onchangetext={(text) => setNote(text)}
-        />
-        <CustomInput
-          placeholder={t("percent")}
-          value={percent}
-          onchangetext={(text) => setPercent(text)}
-        />
-
-        <View
-          style={[
-            PublicStyles.row,
-            PublicStyles.justifyBetween,
-            { marginTop: 20, marginBottom: 20 },
-          ]}
-        >
-          <TouchableOpacity style={styles.dateBtn} onPress={() => setPickerRdateVisible(true)}>
-            <Text style={styles.dateBtnText}> {t("rdate")}   </Text>
-          </TouchableOpacity>
-          <CustomDateTimePicker
-            isVisible={isPickerRdateVisible}
-            onClose={() => setPickerRdateVisible(false)}
-            onConfirm={handleConfirmRdate}
+          <CustomPicker
+            items={branches}
+            selectedItem={branchItem}
+            onSelect={handleSelectbranch}
+            displayKey="name"
+            selectoption={t("selectbranch")}
           />
 
-          <TouchableOpacity style={styles.dateBtn} onPress={() => setPickerDdateVisible(true)}>
-            <Text style={styles.dateBtnText}> {t("ddate")} </Text>
-          </TouchableOpacity>
-
-          <CustomDateTimePicker
-            isVisible={isPickerDdateVisible}
-            onClose={() => setPickerDdateVisible(false)}
-            onConfirm={handleConfirmDdate}
+          <CustomPicker
+            items={invoiceTypes}
+            selectedItem={invoiceTypeItem}
+            onSelect={handleSelectInvoiceType}
+            displayKey="type"
+            selectoption={t("selectinvoicetype")}
           />
+
+
+
+          <CustomInput
+            placeholder={t("name")}
+            value={name}
+            onchangetext={(text) => setName(text)}
+          />
+          <CustomInput
+            placeholder={t("phone")}
+            value={phone}
+            onchangetext={(text) => setPhone(text)}
+          />
+
+          <CustomInput
+            placeholder={t("address")}
+            value={address}
+            onchangetext={(text) => setAddress(text)}
+          />
+
+          <CustomInput
+            placeholder={t("carno")}
+            value={carNo}
+            onchangetext={(text) => setCarno(text)}
+          />
+
+          <CustomInput
+            placeholder={t("cartype")}
+            value={carType}
+            onchangetext={(text) => setCartype(text)}
+          />
+
+          <CustomInput
+            placeholder={t("carservice")}
+            value={carService}
+            onchangetext={(text) => setService(text)}
+          />
+          <CustomInput
+            placeholder={t("price")}
+            value={price}
+            onchangetext={(text) => setPrice(text)}
+          />
+
+          <CustomInput
+            placeholder={t("description")}
+            value={description}
+            onchangetext={(text) => setCarDescription(text)}
+          />
+          <CustomInput
+            placeholder={t("note")}
+            value={note}
+            onchangetext={(text) => setNote(text)}
+          />
+          <CustomInput
+            placeholder={t("percent")}
+            value={percent}
+            onchangetext={(text) => setPercent(text)}
+          />
+
+          <View
+            style={[
+              PublicStyles.row,
+              PublicStyles.justifyBetween,
+              { marginTop: 20, marginBottom: 20 },
+            ]}
+          >
+
+            <CustomDateButton title={t("rdate")} onpress={() => setPickerRdateVisible(true)} />
+
+            <CustomDateTimePicker
+              isVisible={isPickerRdateVisible}
+              onClose={() => setPickerRdateVisible(false)}
+              onConfirm={handleConfirmRdate}
+            />
+
+            <CustomDateButton title={t("ddate")} onpress={() => setPickerDdateVisible(true)} />
+
+            <CustomDateTimePicker
+              isVisible={isPickerDdateVisible}
+              onClose={() => setPickerDdateVisible(false)}
+              onConfirm={handleConfirmDdate}
+            />
+          </View>
+
+        
+
+          {loading ? (
+            <CustomButton
+              title={<ActivityIndicator size="small" color="white" />}
+
+            />
+          ) : (
+            <CustomButton title={t("add")} onpress={handleAddInvoie} />
+          )}
         </View>
-
-        {loading ? (
-          <CustomButton
-            title={<ActivityIndicator size="small" color="white" />}
-            
-          />
-        ) : (
-          <CustomButton title={t("add")} onpress={handleAddInvoie} />
-        )}
-      </View>
+      ) :   <CustomAlert alert={t('alert-connection')} />}
+      
     </ScrollView>
+    <BottomNav />
+   </View>
   );
 }
 
 
 const styles = StyleSheet.create({
-    dateBtn:{
-        borderWidth: 1,
-        borderColor: 'gray',
-        padding: 10,
-        borderRadius: 5,
-        marginBottom: 10,
-        width: '45%',
-        textAlign:'center'
-    },
-    dateBtnText:{
-       textAlign:'center'
-    }
+  dateBtn: {
+    borderWidth: 1,
+    borderColor: 'gray',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    width: '45%',
+    textAlign: 'center'
+  },
+  dateBtnText: {
+    textAlign: 'center'
+  }
 
 })

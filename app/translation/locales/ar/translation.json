@@ -173,10 +173,17 @@
   "deletesuccess": "تم الحذف بنجاح",
   "search": "ابحث",
   "wrongpermission": "للاسف ليس لديك صلاحيات لمسح هذا العنصر",
-  "carsstatus":"حاله السيارات",
-  "endstage":"انهاء المرحله",
-  "stageend":"المرحله انتهت",
-  "delivercar":"تسليم السياره",
-  "validationError":"خطا في المعلومات المدخله",
-  "requiredFieldsMissing":"تاكد من ادخال الفرع و نوع الفاتوره والملاحظات بشكل جيد"
+  "carsstatus": "حاله السيارات",
+  "endstage": "انهاء المرحله",
+  "stageend": "المرحله انتهت",
+  "delivercar": "تم الانتهاء",
+  "validationError": "خطا في المعلومات المدخله",
+  "requiredFieldsMissing": "تاكد من ادخال الفرع و نوع الفاتوره والملاحظات بشكل جيد",
+  "alert-connection": "تأكد من اتصالك بالانترنت ",
+  "update_available": "تحديث متوفر",
+  "update_now": "هناك نسخه جديده متوفره هل ترغب في التحديث",
+  "go-to-store": "Go to store",
+  "updateNow": "Update Now",
+  "after-update": "Update downloaded. Restarting app...",
+  "scroll-right":"قم بالتمرير ناحيه اليمين للمزيد"
 }

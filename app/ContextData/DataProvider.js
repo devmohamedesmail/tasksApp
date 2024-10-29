@@ -16,7 +16,7 @@ export default function DataProvider({ children }) {
       const response = await axios.get(`${BackendData.url}show/branches`);
       setBranches(response.data.data);
     } catch (error) {
-      console.log(error);
+      console.log("fetch branches error " + error);
     }
   };
 
