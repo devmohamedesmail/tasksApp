@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { ScrollView, Text, View, Alert, ActivityIndicator } from "react-native";
+import { ScrollView, View, Alert, ActivityIndicator } from "react-native";
 import { PublicStyles } from "../../styles/PublicStyles";
 import CustomInput from "../../customComponents/CustomInput";
 import { DataContext } from "../../ContextData/DataProvider";
@@ -9,9 +9,12 @@ import CustomButton from "../../customComponents/CustomButton";
 import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "../../ContextData/ThemeContext";
+
 import BottomNav from "../../components/BottomNav";
-import Header from "../../components/Header";
+import { Div ,ScrollDiv,Text} from "react-native-magnus";
+import BackButton from "../../components/BackButton";
+import DrawerComponent from "../../components/DrawerComponent";
+import Colors from "../../config/Colors";
 
 export default function AddProblem() {
   const route = useRoute();
@@ -26,7 +29,6 @@ export default function AddProblem() {
   const { auth } = useContext(AuthContextData);
   const [loading, setLoading] = useState(false);
   const {t}=useTranslation()
-  const {theme}=useTheme()
   const {
     branches,
     fetchBranches,
@@ -74,11 +76,15 @@ export default function AddProblem() {
     }
   };
   return (
- <View style={{ flex:1 }}>
-     <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
-      <View style={PublicStyles.container}>
-        <Header />
-        <Text style={[PublicStyles.screenTitle, theme==='light'? PublicStyles.textDarkMode : PublicStyles.textLightMode]} >{t('addproblem')}</Text>
+ <Div flex={1}>
+     <ScrollDiv bg={Colors.light}>
+      <Div py={30} px={10}>
+       
+      
+
+        <Text fontWeight="bold" textAlign="center" fontSize={15} my={10}>{t('addproblem')}</Text>
+
+
         <CustomInput
           value={step}
           placeholder={t('stagename')}
@@ -119,9 +125,9 @@ export default function AddProblem() {
             onpress={() => handleAddProblem()}
           />
         )}
-      </View>
-    </ScrollView>
+      </Div>
+    </ScrollDiv>
     <BottomNav />
- </View>
+ </Div>
   );
 }

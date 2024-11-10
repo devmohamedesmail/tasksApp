@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, ScrollView, StyleSheet, Image } from "react-native";
+import { View, ScrollView, } from "react-native";
 import { PublicStyles } from "../styles/PublicStyles";
 import { useTranslation } from "react-i18next";
 import { AuthContextData } from "../ContextData/AuthContext";
@@ -8,9 +8,14 @@ import { useNavigation } from "@react-navigation/native";
 import BackendData from "../utilities/BackendData";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useTheme } from "../ContextData/ThemeContext";
 import BottomNav from "../components/BottomNav";
-import Header from "../components/Header";
+
+import BackButton from "../components/BackButton";
+import DrawerComponent from "../components/DrawerComponent";
+import { Div, Text, Image, ScrollDiv } from "react-native-magnus";
+import ItemSkeletion from "./Skeletons/ItemSkeletion";
+import ToggleLangButton from "../components/TogglelangButton/ToggleLangButton";
+import Colors from "../config/Colors";
 
 
 
@@ -20,26 +25,26 @@ export default function Profile() {
   const [info, setInfo] = useState(null);
   const [auth, setauth] = useContext(AuthContextData);
   const navigation = useNavigation();
-  const { theme } = useTheme();
+
   useEffect(() => {
     setInfo(auth);
   }, [auth]);
 
-  
+
 
 
 
 
   const handlelogout = async () => {
     try {
-      
-      const token = auth?.token; 
-  
+
+      const token = auth?.token;
+
       if (!token) {
         navigation.navigate('Login');
         return;
       }
-  
+
       // Make a POST request to the logout endpoint
       const response = await axios.post(
         `${BackendData.url}logout`,
@@ -50,16 +55,16 @@ export default function Profile() {
           },
         }
       );
-  
+
       if (response.status === 200) {
         // Clear auth state or context
         setauth(null);
-  
-        
+
+
         await AsyncStorage.removeItem('userAuth');
-  
+
         navigation.navigate('Login');
-        
+
       }
     } catch (error) {
       console.error('Logout failed', error);
@@ -70,56 +75,47 @@ export default function Profile() {
 
 
   return (
-  <View style={{ flex:1 }}>
-      <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
-      <View style={PublicStyles.container}>
-        <Header />
-        <Text style={[PublicStyles.screenTitle,theme==='light'? PublicStyles.textDarkMode : PublicStyles.textLightMode]}>{t("profile")}</Text>
-        <Image
-          style={styles.image}
-          source={require("../../assets/images/profile.png")}
-        />
+    <Div flex={1}>
+      <ScrollDiv bg={Colors.light} >
+        <Div py={30} px={10}>
 
-        <View style={styles.iteminfo}>
-          {info ? (
-            <Text style={[styles.text,theme==='light'? PublicStyles.textDarkMode : PublicStyles.textLightMode]}>{info.user.name}</Text> // Display info.name when info is available
-          ) : (
-            <Text>Loading...</Text> // Display a loading text or a placeholder when info is not available
-          )}
-        </View>
-        <View style={styles.iteminfo}>
-          {info ? (
-            <Text style={[styles.text,theme==='light'? PublicStyles.textDarkMode : PublicStyles.textLightMode]}>{info.user.email}</Text> // Display info.name when info is available
-          ) : (
-            <Text>Loading...</Text> // Display a loading text or a placeholder when info is not available
-          )}
-        </View>
-        <View style={{marginTop:30}}>
-        <CustomButton title={t('logout')} onpress={()=>handlelogout()} />
-       
-        </View>
-      </View>
-    </ScrollView>
-    <BottomNav />
-  </View>
+        
+          <Image
+            h={100}
+            w={100}
+            m={10}
+            alignSelf="center"
+            rounded="circle"
+            source={require("../../assets/images/profile.png")}
+          />
+
+          <Div row justifyContent="center" my={10}>
+            {info ? (
+              <Text fontWeight="bold" fontSize={20}>{info.user.name}</Text>
+            ) : (
+              <ItemSkeletion />
+            )}
+          </Div>
+          <Div row justifyContent="center" my={10}>
+            {info ? (
+              <Text fontWeight="bold" fontSize={15}>{info.user.email}</Text>
+            ) : (
+              <ItemSkeletion />
+            )}
+          </Div>
+
+          <Div row justifyContent="center">
+            <ToggleLangButton />
+          </Div>
+
+          <CustomButton title={t('logout')} onpress={() => handlelogout()} />
+
+
+        </Div>
+      </ScrollDiv>
+      <BottomNav />
+    </Div>
   );
 }
 
-const styles = StyleSheet.create({
-  image: {
-    width: 100,
-    height: 100,
-    alignSelf: "center",
-  },
-  iteminfo:{
-    textAlign:'center',
 
-    alignSelf:"center",
-    marginTop:20,
-    fontWeight:'bold',
-    fontSize:20
-  },
-  text:{
-    fontWeight:'bold'
-  }
-});

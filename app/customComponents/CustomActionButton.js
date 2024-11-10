@@ -1,28 +1,14 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { PublicStyles } from '../styles/PublicStyles'
 
-export default function CustomActionButton({onpress,title,icon=null,backgroundColor}) {
+import { Button, Icon, Div, Text } from "react-native-magnus";
+
+export default function CustomActionButton({ onpress, title, icon = null, backgroundColor, bg }) {
   return (
-    <TouchableOpacity onPress={onpress} style={[PublicStyles.row,PublicStyles.itemcenter,styles.actionButton,{backgroundColor:backgroundColor}]}>
-        <Text style={styles.textBtn}>{title}</Text>
-        {icon}
-    </TouchableOpacity>
+      <Button bg={backgroundColor} h={60} w='100%' rounded="lg" onPress={onpress}>
+        <Icon name={icon} color="white" fontSize={20} />
+        <Text color='white' fontWeight='bold' mx={10} fontSize={15}>{title}</Text>
+      </Button>
   )
 }
 
-const styles = StyleSheet.create({
-    actionButton:{
-       borderRadius:5,
-       width:'auto' ,
-       backgroundColor:PublicStyles.primaryColor,
-       padding: 8,
-       marginLeft:5,
-       marginRight:5,
-    },
-    textBtn:{
-        color:"white",
-        fontWeight:'bold',
-        fontSize:10,
-    }
-})
+

@@ -1,42 +1,17 @@
-import React, { useState } from 'react'
-import { TouchableOpacity, StyleSheet, Text } from 'react-native'
-import { PublicStyles } from '../styles/PublicStyles'
-import { useTheme } from '../ContextData/ThemeContext'
+import React from 'react'
+import { Div, Text } from 'react-native-magnus'
+import { Button, Icon } from 'react-native-magnus'
 
-export default function CustomBottomNavBtn({ onPress, icon, title, activeScreen, setActiveScreen }) {
-    const { theme } = useTheme()
+export default function CustomBottomNavBtn({ onPress, icon, title,bg ,text}) {
     return (
-        <TouchableOpacity
-            style={[
-                PublicStyles.col,
-                PublicStyles.itemcenter,
-                styles.btn,
-                activeScreen === "Home" && styles.activeBtn,
-            ]}
-            onPress={onPress}
-        >
+     
+        <Button bg={bg} flex={1}  rounded="md"  h={55} mx={5} onPress={onPress} >
+            <Div justifyContent='center' alignItems='center'>
             {icon}
-            <Text style={[styles.btnText,theme === 'light' ? styles.btnTextLight : styles.btnTextDark]}>{title}</Text>
-        </TouchableOpacity>
+            <Text color={text} fontWeight='bold' fontSize={12}>{title}</Text>
+            </Div>
+        </Button>
     )
 }
 
 
-const styles = StyleSheet.create({
-    btn: {
-        flex: 1,
-    },
-    btnTextDark: {
-        color: "black",
-        fontSize: 13,
-        marginTop:5,
-        fontWeight:'semibold'
-    },
-    btnTextLight: {
-        color: "white",
-        fontSize: 13,
-        marginTop:5,
-        fontWeight:'semibold'
-    },
-
-})

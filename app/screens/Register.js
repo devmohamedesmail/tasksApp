@@ -1,32 +1,33 @@
-import React, { useContext, useState } from 'react'
-import { ActivityIndicator, Alert, ScrollView, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import { ActivityIndicator, Alert, ScrollView, View, StyleSheet } from 'react-native'
 import { PublicStyles } from '../styles/PublicStyles'
 import CustomInput from '../customComponents/CustomInput'
 import CustomButton from '../customComponents/CustomButton';
-import { AuthContextData } from '../ContextData/AuthContext';
+
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import BackendData from '../utilities/BackendData';
-import { useTheme } from '../ContextData/ThemeContext';
 import Header from '../components/Header';
+import { Div,Text } from 'react-native-magnus';
+import CustomRedirectButton from '../customComponents/CustomRedirectButton';
+import Logo from '../components/Logo';
 
 export default function Register() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [auth, setAuth] = useContext(AuthContextData);
     const [loading, setLoading] = useState(false)
     const navigation = useNavigation();
     const { t } = useTranslation();
-    const { theme } = useTheme();
+
 
 
 
     const handleRegister = async () => {
         try {
             setLoading(true)
-            const response = await axios.post(`${BackendData.url}register`, {
+            await axios.post(`${BackendData.url}register`, {
                 name, email, password
             });
 
@@ -42,25 +43,22 @@ export default function Register() {
 
 
     return (
-        <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
+        <ScrollView style={PublicStyles.screenLight}>
             <View style={PublicStyles.container}>
-                <Header />
+               
                 <View style={styles.loginContainer}>
-
-                    <Text style={[PublicStyles.screenTitle, { marginTop: 40, marginBottom: 40 }]}>{t('register')}</Text>
-                    <CustomInput placeholder={t('name')} value={name} onchangetext={(text) => setName(text)} />
-                    <CustomInput placeholder={t('email')} value={email} onchangetext={(text) => setEmail(text)} />
-                    <CustomInput placeholder={t('password')} value={password} onchangetext={(text) => setPassword(text)} secureTextEntry={true} />
+                    <Logo />
+                      <Text fontWeight='bold' fontSize={15} m='auto' mb={20}>{t('register')}</Text>
+                    
+                    <CustomInput icon='user' placeholder={t('name')} value={name} onchangetext={(text) => setName(text)} />
+                    <CustomInput icon='mail' placeholder={t('email')} value={email} onchangetext={(text) => setEmail(text)} />
+                    <CustomInput icon='lock' placeholder={t('password')} value={password} onchangetext={(text) => setPassword(text)} secureTextEntry={true} />
 
                     {loading ? (<CustomButton title={<ActivityIndicator color='white' size='small' />} onpress={() => handleRegister()} />) : (<CustomButton title={t('register')} onpress={() => handleRegister()} />)}
-
-
-                    <View style={[PublicStyles.row, { marginTop: 50, marginLeft: 30 }]}>
-                        <Text style={theme === 'light' ? PublicStyles.textDarkMode : PublicStyles.textLightMode}>{t('haveaccount')}</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                            <Text style={theme === 'light' ? PublicStyles.textDarkMode : PublicStyles.textLightMode} >{t('login')}</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <Div row justifyContent='flex-start' mx={10} my={30} alignItems='center'>
+                        <Text>{t('haveaccount')}</Text>
+                        <CustomRedirectButton onPress={() => navigation.navigate('Login')} title={t('login')} />
+                    </Div>
 
                 </View>
             </View>
@@ -71,7 +69,7 @@ export default function Register() {
 
 const styles = StyleSheet.create({
     loginContainer: {
-        paddingTop: 100,
+        paddingTop: 50,
 
     }
 })

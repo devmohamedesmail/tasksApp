@@ -1,134 +1,67 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { PublicStyles } from "../styles/PublicStyles";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { AuthContextData } from "../ContextData/AuthContext";
 import { useTranslation } from "react-i18next";
 import CustomBottomNavBtn from "../customComponents/CustomBottomNavBtn";
-import { useTheme } from "../ContextData/ThemeContext";
+import { Div } from "react-native-magnus";
+import Colors from "../config/Colors";
+import { useNavigationState } from '@react-navigation/native';
+
 
 
 
 
 export default function BottomNav() {
-
   const navigation = useNavigation();
-  const [auth, setAuth] = useContext(AuthContextData);
   const { t } = useTranslation()
-  const { theme } = useTheme()
 
 
+
+ // Automatically determine the active screen based on navigation state
+ const activeScreen = useNavigationState(state => state.routes[state.index].name);
+
+ const getButtonStyles = (screenName) => ({
+   bg: activeScreen === screenName ? Colors.primary : 'white',
+   text: activeScreen === screenName ? 'white' : Colors.primary,
+ });
 
 
 
   return (
-    <View style={[styles.navBottom, theme === 'light' ? PublicStyles.backgroundlightColor : PublicStyles.backgroundDarkColor]}>
-      <View
-        style={[
-          PublicStyles.container,
-          PublicStyles.justifyBetween,
-          PublicStyles.row,
-          styles.btnContainer,
-        ]}
-      >
-
+    <Div h={70} row bg='white' borderTopWidth={1} borderTopColor="gray400" justifyContent="center" alignItems="center">
+       <Div row>
         <CustomBottomNavBtn
-          icon={theme === 'light' ? <AntDesign name="home" size={20} color="white" /> : <AntDesign name="home" size={20} color="black" />}
+          icon={<AntDesign name="home" size={26} color={activeScreen === 'Home' ? Colors.titary : Colors.primary} />}
           title={t('home')}
-          onPress={() => {
-
-            if (auth && auth.user) {
-
-              if (auth.user.role === "user" || auth.user.role === null) {
-                navigation.navigate("Login");
-              } else {
-                navigation.navigate("Home");
-               
-              }
-            }
-
-          }} />
-
+          onPress={() => navigation.navigate('Home')}
+          {...getButtonStyles('Home')}
+        />
 
         <CustomBottomNavBtn
-          icon={theme === 'light' ? <FontAwesome6 name="file-invoice-dollar" size={24} color="white" /> : <FontAwesome6 name="file-invoice-dollar" size={24} color="black" />}
+          icon={<FontAwesome6 name="file-invoice-dollar" size={27} color={activeScreen === 'Invoices' ? Colors.titary : Colors.primary} />}
           title={t('invoices')}
-          onPress={() => {
-
-            if (auth && auth.user) {
-
-              if (auth.user.role === "user" || auth.user.role === null) {
-                navigation.navigate("Login");
-              } else {
-                navigation.navigate("Invoices");
-              
-              }
-            }
-          }}
+          onPress={() => navigation.navigate('Invoices')}
+          {...getButtonStyles('Invoices')}
         />
 
-
-
         <CustomBottomNavBtn
-          icon={theme === 'light' ? <FontAwesome5 name="car-alt" size={24} color="white" /> : <FontAwesome5 name="car-alt" size={24} color="black" />}
+          icon={<FontAwesome5 name="car-alt" size={26} color={activeScreen === 'InvoicesData' ? Colors.titary  : Colors.primary} />}
           title={t('carsstatus')}
-          onPress={() => {
-
-            if (auth && auth.user) {
-
-              if (auth.user.role === "user" || auth.user.role === null) {
-                navigation.navigate("Login");
-              } else {
-                navigation.navigate("InvoicesData");
-              
-              }
-            }
-          }}
+          onPress={() => navigation.navigate('InvoicesData')}
+          {...getButtonStyles('InvoicesData')}
         />
-
-
 
         <CustomBottomNavBtn
-          icon={theme === 'light' ? <AntDesign name="user" size={24} color="white" /> : <AntDesign name="user" size={24} color="black" />}
+          icon={<AntDesign name="user" size={26} color={activeScreen === 'Profile' ? Colors.titary  : Colors.primary} />}
           title={t('profile')}
-          onPress={() => {
-
-            if (auth && auth.user) {
-
-              if (auth.user.role === "user" || auth.user.role === null) {
-                navigation.navigate("Login");
-              } else {
-                navigation.navigate("Profile");
-                
-              }
-            }
-          }}
+          onPress={() => navigation.navigate('Profile')}
+          {...getButtonStyles('Profile')}
         />
-
-
-
-
-
-      </View>
-    </View>
+      </Div>
+    </Div>
   );
 }
 
-const styles = StyleSheet.create({
-  navBottom: {
-    height: 60,
-    alignItems: "center",
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-    bottom: 0,
-  },
-  btnContainer: {
-    position: "relative",
-  },
 
-});

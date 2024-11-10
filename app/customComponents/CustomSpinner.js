@@ -1,20 +1,18 @@
 import React from 'react'
-import { ActivityIndicator, StyleSheet, View } from 'react-native'
-import { PublicStyles } from '../styles/PublicStyles'
+import { ActivityIndicator } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { Div,Text } from 'react-native-magnus'
 
 export default function CustomSpinner() {
+  const { theme } = useTheme()
+  const{t}=useTranslation()
   return (
-    <View style={styles.spinnerContainer}>
-        <ActivityIndicator color={PublicStyles.primaryColor} size='large' />
-    </View>
+   
+    <Div >
+      <Text>{t('please-wait')}</Text>
+      <ActivityIndicator />
+    </Div>
   )
 }
 
-const styles = StyleSheet.create({
-    spinnerContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding:200
-    }
-})
+

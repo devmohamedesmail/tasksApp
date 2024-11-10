@@ -1,23 +1,19 @@
-import React, { useEffect, useState, useCallback } from "react";
-import {
-  Alert,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, ScrollView, StyleSheet, View } from "react-native";
 import { PublicStyles } from "../../styles/PublicStyles";
 import BackendData from "../../utilities/BackendData";
 import CarStatusItem from "./CarStatusItem";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import { useTranslation } from "react-i18next";
-import SearchBox from "../../components/SearchBox";
-import CustomSpinner from "../../customComponents/CustomSpinner";
-import { useTheme } from "../../ContextData/ThemeContext";
-import Header from "../../components/Header";
 import Entypo from '@expo/vector-icons/Entypo';
 import BottomNav from "../../components/BottomNav";
+import CustomInput from "../../customComponents/CustomInput";
+import { Div, ScrollDiv, Text } from "react-native-magnus";
+import InvoiceSkeleton from "../Skeletons/InvoiceSkeleton";
+import BackButton from "../../components/BackButton";
+import DrawerComponent from "../../components/DrawerComponent";
+import CustomButton from "../../customComponents/CustomButton";
+import Colors from "../../config/Colors";
 
 
 export default function InvoicesDataDetails() {
@@ -25,7 +21,7 @@ export default function InvoicesDataDetails() {
   const [data, setData] = useState([]);
   const [query, setQuery] = useState("");
   const { t } = useTranslation();
-  const { theme } = useTheme();
+
 
   const fetchData = async () => {
     try {
@@ -45,7 +41,7 @@ export default function InvoicesDataDetails() {
 
   const handleChangeStageStatus = async (stageId) => {
     Alert.alert(
-      t("confirm"), // Translated title
+      t("confirm"),
       t("alertdelete"),
       [
         {
@@ -67,6 +63,7 @@ export default function InvoicesDataDetails() {
         },
       ]
     );
+
   };
 
   const handleChangeInvoice = async (invoiceId) => {
@@ -114,133 +111,87 @@ export default function InvoicesDataDetails() {
 
 
   return (
-  <View style={{ flex:1 }}>
-      <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
-      <View style={[PublicStyles.container, { paddingBottom: 100 }]}>
-        <Header />
-        <View>
-          <Text style={PublicStyles.screenTitle}>{carsstatus.length}</Text>
-        </View>
+    <Div flex={1}>
+      <ScrollDiv bg={Colors.light}>
+        <Div px={10} py={30}>
 
-        <View style={[PublicStyles.row, PublicStyles.justifyBetween, PublicStyles.itemcenter]}>
+          {carsstatus && carsstatus.length > 0 ? (
+            <Div>
+              <CustomInput
+                placeholder={t('search')}
+                icon='search'
+                value={query}
+                onchangetext={(text) => {
+                  setQuery(text);
+                  handleSearch();
+                }}
+
+              />
+            </Div>
+          ) : (<></>)}
 
 
-          <SearchBox
-            value={query}
-            onchangetext={(text) => {
-              setQuery(text);
-              handleSearch();
-            }}
-          />
+
+          {carsstatus && carsstatus.length > 0 ? (
+            carsstatus.map((item, index) => (
+              <Div bg="gray200" py={10} my={10} key={item.id}>
+
+                <Div row justifyContent="space-between" alignItems="center" px={15} my={10}>
+                  <Text fontWeight="bold" fontSize={15}>{item.carNo}</Text>
+                  <Text fontWeight="bold" fontSize={15}>{item.carType}</Text>
+                </Div>
 
 
-        </View>
 
-        {carsstatus && carsstatus.length > 0 ? (
-          carsstatus.map((item, index) => (
-            <View style={styles.item} key={item.id}>
-              <View
-                style={[
-                  PublicStyles.row,
-                  PublicStyles.justifyBetween,
-                  PublicStyles.itemcenter,
-                ]}
-              >
-                <Text key={index} style={[PublicStyles.screenTitle]}>
-                  {item.carNo}
-                </Text>
-                <Text key={index} style={[PublicStyles.screenTitle]}>
-                  {item.carType}
-                </Text>
 
-                <TouchableOpacity
-                  style={styles.btn}
-                  onPress={() => handleChangeInvoice(item.id)}
-                >
-                  <Text style={styles.textBtn}>{t("delivercar")}</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.noteContainer}>
-                <Text style={styles.note}>{t("scroll-right")}</Text>
-                <Entypo name="arrow-bold-right" size={24} color="#14213d" />
-              </View>
-              {item.stages.length > 0 ? (
-                <ScrollView horizontal={true}>
-                  {item.stages.map((stage) => (
-                    <CarStatusItem
-                      name={stage.name}
-                      worker={stage.worker}
-                      start={stage.start}
-                      end={stage.end}
-                      status={stage.status}
-                      changeStatus={() => handleChangeStageStatus(stage.id)}
-                      carNo={item.carNo}
-                    />
-                  ))}
-                </ScrollView>
-              ) : (
-                <View style={{ display: 'flex', justifyContent: "center", alignItems: 'center' }}>
-                  <Text
-                    styles={{ fontSize: 18 }}
-                  >
-                    {t("nostage")}
-                  </Text>
-                </View>
-              )}
-            </View>
-          ))
-        ) : (
-          <>
+                {item.stages.length > 0 ? (
+                  <>
+                    <Div row justifyContent="center" alignItems="center">
+                      <Text fontWeight="bold" mx={10}>{t("scroll-right")}</Text>
+                      <Entypo name="arrow-bold-right" size={24} color="#14213d" />
+                    </Div>
+                    <ScrollView horizontal={true}>
+                      {item.stages.map((stage) => (
+                        <CarStatusItem
+                          name={stage.name}
+                          worker={stage.worker}
+                          start={stage.start}
+                          end={stage.end}
+                          status={stage.status}
+                          changeStatus={() => handleChangeStageStatus(stage.id)}
+                          carNo={item.carNo}
+                        />
+                      ))}
+                    </ScrollView>
 
-            <CustomSpinner />
-          </>
+                    <CustomButton title={t("delivercar")} onpress={() => handleChangeInvoice(item.id)} />
+                  </>
+                ) : (
+                  <Text textAlign="center" fontSize={14} mt={10}>{t("nostage")}</Text>
+                )}
+              </Div>
+            ))
+          ) : (
+            <>
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
 
-        )}
-      </View>
+            </>
 
-    </ScrollView>
-    <BottomNav />
-  </View>
+          )}
+        </Div>
+
+      </ScrollDiv>
+      <BottomNav />
+    </Div>
   );
 }
 
-const styles = StyleSheet.create({
-  item: {
-    borderColor: PublicStyles.lightColor,
-    borderWidth: 2,
-    padding: 10,
-    marginBottom: 10,
-    backgroundColor: 'white'
-  },
-  textalert: {
-    color: "red",
-    marginBottom: 5,
-    fontSize: 30,
-    textAlign: "center",
-    backgroundColor: "red",
-  },
-  btn: {
-    backgroundColor: PublicStyles.primaryDarkColor,
-    paddingRight: 10,
-    paddingLeft: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
-    marginHorizontal: 10,
-  },
-  textBtn: {
-    color: "white",
-    fontSize: 15,
-  },
-  noteContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  note: {
-    fontSize: 15,
-    alignSelf: 'center',
-    fontWeight: 'bold',
-    color: PublicStyles.primaryDarkColor
-  }
-});
+

@@ -10,8 +10,11 @@ import { useNavigation } from '@react-navigation/native';
 import BackendData from '../utilities/BackendData';
 import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
-import { useTheme } from '../ContextData/ThemeContext';
-import BottomNav from '../components/BottomNav';
+import Logo from '../components/Logo';
+import { Div } from 'react-native-magnus';
+import CustomRedirectButton from '../customComponents/CustomRedirectButton';
+
+
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -20,7 +23,7 @@ export default function Login() {
     const [loading, setLoading] = useState(false)
     const navigation = useNavigation()
     const { t } = useTranslation()
-    const { theme } = useTheme()
+
 
 
 
@@ -39,7 +42,7 @@ export default function Login() {
                 navigation.navigate('Login');
                 Alert.alert(t('notallowedlogin'))
             } else {
-                navigation.navigate('Home');
+                navigation.navigate('JobCards');
             }
 
 
@@ -56,34 +59,31 @@ export default function Login() {
 
     }
     return (
-       <View style={{ flex:1 }}>
-         <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
-            <View style={PublicStyles.container}>
-                <Header />
+        <View style={{ flex: 1 }}>
+            <ScrollView style={PublicStyles.screenLight}>
+                <View style={PublicStyles.container}>
+                    {/* <Header /> */}
 
-                <View style={styles.loginContainer}>
+                    <View style={styles.loginContainer}>
+                        <Logo />
 
+                        <Text style={[PublicStyles.screenTitle, { marginTop: 40, marginBottom: 40 }]}>{t('login')}</Text>
+                        <CustomInput placeholder={t('email')} value={email} onchangetext={(text) => setEmail(text)} icon='mail' />
+                        <CustomInput placeholder={t('password')} value={password} onchangetext={(text) => setPassword(text)} secureTextEntry={true} icon='lock' />
 
-                    <Text style={[PublicStyles.screenTitle, { marginTop: 40, marginBottom: 40 }]}>{t('login')}</Text>
-                    <CustomInput placeholder={t('email')} value={email} onchangetext={(text) => setEmail(text)} />
-                    <CustomInput placeholder={t('password')} value={password} onchangetext={(text) => setPassword(text)} secureTextEntry={true} />
+                        {loading ? (<CustomButton title={<ActivityIndicator color='white' size='small' />} onpress={() => handleLogin()} />) : (<CustomButton title={t('login')} onpress={() => handleLogin()} />)}
 
-                    {loading ? (<CustomButton title={<ActivityIndicator color='white' size='small' />} onpress={() => handleLogin()} />) : (<CustomButton title={t('login')} onpress={() => handleLogin()} />)}
-
-                    <View style={[PublicStyles.row, { marginTop: 50, marginLeft: 30 }]}>
-                        <Text style={theme === 'light' ? PublicStyles.textDarkMode : PublicStyles.textLightMode}>{t('noaccount')} </Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                            <Text style={theme === 'light' ? PublicStyles.textDarkMode : PublicStyles.textLightMode}>{t('register')}</Text>
-                        </TouchableOpacity>
-
+                        <Div row justifyContent='flex-start' mx={10} my={30} alignItems='center'>
+                            <Text>{t('noaccount')} </Text>
+                            <CustomRedirectButton title={t('register')} onPress={() => navigation.navigate('Register')} />
+                        </Div>
                     </View>
+
+
                 </View>
-
-
-            </View>
-        </ScrollView>
-        <BottomNav />
-       </View>
+            </ScrollView>
+            {/* <BottomNav /> */}
+        </View>
     )
 }
 

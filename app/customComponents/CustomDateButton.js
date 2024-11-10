@@ -1,36 +1,13 @@
 import React from "react";
-import { TouchableOpacity,StyleSheet ,Text} from "react-native";
-import { PublicStyles } from "../styles/PublicStyles";
-import Fontisto from '@expo/vector-icons/Fontisto';
-import { useTheme } from "../ContextData/ThemeContext";
+import { Button, Icon, Div, Text } from "react-native-magnus";
 
-export default function CustomDateButton({ onpress ,title }) {
-  const {theme}=useTheme();
+export default function CustomDateButton({ onpress, title, bg }) {
   return (
-    <TouchableOpacity
-      style={[styles.dateBtn,theme==='light'? PublicStyles.backgroundlightColor : PublicStyles.backgroundDarkColor]}
-      onPress={onpress}
-    >   
-      <Text style={[styles.dateBtnText,theme==='light'? PublicStyles.textLightMode : PublicStyles.textDarkMode]}>{title} </Text>
-      
-      {theme === 'light' ? <Fontisto name="date" size={20} color={'#fff'} /> : <Fontisto name="date" size={20} color={'black'} />}
-    </TouchableOpacity>
+
+    <Button bg={bg} h={50} w='45%' rounded="lg" onPress={onpress}>
+      <Text color="white" fontWeight="bold" mx={5}>{title}</Text>
+    </Button>
+
   );
 }
 
-const styles = StyleSheet.create({
-    dateBtn: {
-      padding: 10,
-      marginBottom: 10,
-      width: "48%",
-      textAlign: "center",
-      display:'flex',
-      flexDirection:'row',
-      justifyContent:'space-around',
-      alignItems:'center'
-    },
-    dateBtnText: {
-      textAlign: "center",
-      fontWeight:'normal'
-    },
-  });

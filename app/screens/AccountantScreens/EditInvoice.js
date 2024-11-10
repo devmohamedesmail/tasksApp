@@ -1,7 +1,6 @@
 import { useRoute } from "@react-navigation/native";
 import React, { useContext, useState, useEffect } from "react";
-import { ScrollView, Text, TouchableOpacity, View, StyleSheet, Alert, ActivityIndicator } from "react-native";
-import { PublicStyles } from "../../styles/PublicStyles";
+import { StyleSheet, Alert, ActivityIndicator } from "react-native";
 import CustomPicker from "../../customComponents/CustomPicker";
 import { DataContext } from "../../ContextData/DataProvider";
 import CustomButton from "../../customComponents/CustomButton";
@@ -11,10 +10,10 @@ import CustomDateTimePicker from "../../customComponents/CustomDateTimePicker";
 import axios from "axios";
 import BackendData from "../../utilities/BackendData";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "../../ContextData/ThemeContext";
-import Header from "../../components/Header";
 import BottomNav from "../../components/BottomNav";
 import CustomDateButton from "../../customComponents/CustomDateButton";
+import { Div,ScrollDiv,Text } from "react-native-magnus";
+import Colors from "../../config/Colors";
 
 export default function EditInvoice() {
   const route = useRoute();
@@ -42,7 +41,7 @@ export default function EditInvoice() {
   const [isPickerRdateVisible, setPickerRdateVisible] = useState(false);
   const [isPickerDdateVisible, setPickerDdateVisible] = useState(false);
   const { t } = useTranslation();
-  const { theme } = useTheme();
+
 
 
   useEffect(() => {
@@ -105,11 +104,12 @@ export default function EditInvoice() {
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
-        <View style={[PublicStyles.container, { paddingBottom: 100 }]}>
-          <Header />
-          <Text style={[PublicStyles.screenTitle,theme==='light'? PublicStyles.textDarkMode : PublicStyles.textLightMode]}>{t('update')}</Text>
+    <Div flex={1}>
+      <ScrollDiv bg={Colors.light}>
+        <Div p={10}>
+        
+          <Text fontWeight="bold" textAlign="center" mb={30} mt={10} fontSize={15}>{t('update')}</Text>
+          
 
           <CustomPicker
             items={branches}
@@ -192,13 +192,7 @@ export default function EditInvoice() {
           />
 
 
-          <View
-            style={[
-              PublicStyles.row,
-              PublicStyles.justifyBetween,
-              { marginTop: 20, marginBottom: 20 },
-            ]}
-          >
+          <Div row justifyContent="space-between" alignItems="center" my={20}>
             
             <CustomDateButton onpress={() => setPickerRdateVisible(true)} title={t('rdate')} />
 
@@ -217,7 +211,7 @@ export default function EditInvoice() {
               onClose={() => setPickerDdateVisible(false)}
               onConfirm={handleConfirmDdate}
             />
-          </View>
+          </Div>
 
           {loading ? (
             <CustomButton
@@ -228,10 +222,10 @@ export default function EditInvoice() {
             <CustomButton title={t('update')} onpress={handleEditInvoice} />
           )}
 
-        </View>
-      </ScrollView>
+        </Div>
+      </ScrollDiv>
       <BottomNav />
-    </View>
+    </Div>
   );
 }
 

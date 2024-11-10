@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, Animated, Alert } from "react-native";
+import { View, StyleSheet, Animated, Alert } from "react-native";
 import { useTranslation } from "react-i18next";
 import * as Speech from "expo-speech";
 import { PublicStyles } from "../styles/PublicStyles";
 import * as Notifications from "expo-notifications";
+import { Div, Text } from "react-native-magnus";
+import Colors from "../config/Colors";
 
 const parseDate = (dateString) => {
   if (!dateString) return new Date(NaN);
@@ -27,7 +29,7 @@ const parseDate = (dateString) => {
   return new Date(year, month - 1, day, hour, minutes, seconds);
 };
 
-export default function StageProgressBar({ start, end,carNo }) {
+export default function StageProgressBar({ start, end, carNo }) {
   const [progress, setProgress] = useState(0);
   const alertShown = useRef(false);
   const { t, i18n } = useTranslation();
@@ -70,7 +72,7 @@ export default function StageProgressBar({ start, end,carNo }) {
       const progressPercent = (elapsed / totalDuration) * 100;
 
       if (totalDuration <= 0) {
-        console.error("Invalid total duration");
+
         return;
       }
 
@@ -81,68 +83,41 @@ export default function StageProgressBar({ start, end,carNo }) {
 
         // text alert
         Alert.alert(t("progressalert"), t(`progressratio ${carNo}`), [
-          { text: "OK", onPress: () => {} },
+          { text: "OK", onPress: () => { } },
         ]);
-
-          // Send a notification
-          Notifications.scheduleNotificationAsync({
-            content: {
-              title: t("progressalert"),
-              body: i18n.language === "ar"
-                ? ` ${carNo}  الرجاء فحص السياره رقم  `
-                : `Please check car number ${carNo}`,
-              sound: 'default',
-            },
-            trigger: null, // Send immediately
-          });
-
-        // sound alert
-        const message =
-          i18n.language === "ar"
-            ? ` ${carNo}  الرجاء فحص السياره رقم  `
-            : `Please check car number ${carNo}`;
-        Speech.speak(message, {
-          language: i18n.language === "ar" ? "ar" : "en",
-          pitch: 1.2,
-          rate: 0.5,
-        });
       }
     };
 
     calculateProgress(); // Initial calculation
     const interval = setInterval(calculateProgress, 1000);
     return () => clearInterval(interval);
-  }, [start, end, t, i18n.language,carNo ]);
+  }, [start, end, t, i18n.language, carNo]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.progressBarBackground}>
+    <Div my={6}>
+      <Div style={styles.progressBarBackground}>
         <Animated.View
           style={[styles.progressBar, { width: `${progress}%` }]}
         />
-      </View>
-      <Text style={{textAlign:'center'}}>
-        {t("progress")} {isNaN(progress) ? "0" : Math.round(progress)}%
-      </Text>
-    </View>
+      </Div>
+
+      <Text color="black" fontWeight="bold" >{t("progress")} {isNaN(progress) ? "0" : Math.round(progress)}%</Text>
+    </Div>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 20,
-    width:'100%'
-  },
+
   progressBarBackground: {
     height: 10,
-    backgroundColor: "#e0e0df",
+    backgroundColor: Colors.primary,
     borderRadius: 5,
     overflow: "hidden",
     height: 20,
   },
   progressBar: {
     height: "100%",
-    backgroundColor: PublicStyles.primaryDarkColor,
+    backgroundColor: Colors.primary,
     borderRadius: 5,
     position: "absolute",
     height: 20,

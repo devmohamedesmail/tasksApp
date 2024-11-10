@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, ScrollView, StyleSheet } from "react-native";
-import { PublicStyles } from "../../styles/PublicStyles";
 import { useRoute } from "@react-navigation/native";
 import axios from "axios";
 import BackendData from "../../utilities/BackendData";
-import CustomSpinner from "../../customComponents/CustomSpinner";
 import InvoiceDetailsItem from "./InvoiceDetailsItem";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "../../ContextData/ThemeContext";
 import BottomNav from "../../components/BottomNav";
-import Header from "../../components/Header";
+import InvoiceSkeleton from "../Skeletons/InvoiceSkeleton";
+import { Div, ScrollDiv,Text } from "react-native-magnus";
+import Colors from "../../config/Colors";
 
 export default function InvoiceDetails() {
   const route = useRoute();
   const { invoice } = route.params;
   const [invoiceDetails, setInvoiceDetails] = useState(null);
   const { t } = useTranslation();
-  const { theme } = useTheme();
+
 
   const fetchInvoiceDetails = async () => {
     try {
@@ -33,13 +31,13 @@ export default function InvoiceDetails() {
     fetchInvoiceDetails();
   }, [invoiceDetails]);
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
-        <View style={[PublicStyles.container, styles.detailsContainer]}>
-          <Header />
+    <Div flex={1}>
+      <ScrollDiv bg={Colors.light}>
+        <Div>
+        
           {invoiceDetails ? (
             <>
-              <Text style={PublicStyles.screenTitle}>{t('details')}</Text>
+              <Text fontWeight="bold" textAlign="center" my={20}>{t('details')}</Text>
 
               <InvoiceDetailsItem
                 title={t('invoicenumber')}
@@ -83,12 +81,12 @@ export default function InvoiceDetails() {
                 value={invoiceDetails.sales}
               />
 
-              <View style={styles.section}>
-                <Text style={[PublicStyles.screenTitle]}>{t('stages')}</Text>
+              <Div>
+                <Text fontWeight="bold" my={30} textAlign="center" fontSize={15} color={Colors.primary}>{t('stages')}</Text>
                 {invoiceDetails && invoiceDetails.stages.length > 0 ? (
                   <>
                     {invoiceDetails.stages.map((stage) => (
-                      <View key={stage.id} style={styles.stageItem}>
+                      <Div key={stage.id} borderColor="gray400" borderWidth={1} py={20}>
                         <InvoiceDetailsItem title={t('stagename')} value={stage.name} />
                         <InvoiceDetailsItem
                           title={t('worker')}
@@ -105,20 +103,20 @@ export default function InvoiceDetails() {
                         />
 
 
-                      </View>
+                      </Div>
                     ))}
                   </>
                 ) : (
-                  <Text style={{ alignSelf: "center" }}>{t('nostage')}</Text>
+                  <Text fontWeight="bold" my={30} textAlign="center" fontSize={13} color={Colors.primary}>{t('nostage')}</Text>
                 )}
-              </View>
+              </Div>
 
-              <View style={styles.section}>
-                <Text style={[PublicStyles.screenTitle]}>{t('problems')} </Text>
+              <Div>
+                <Text fontWeight="bold" my={30} textAlign="center" fontSize={15} color={Colors.primary}>{t('problems')} </Text>
                 {invoiceDetails && invoiceDetails.problems.length > 0 ? (
                   <>
                     {invoiceDetails.problems.map((problem) => (
-                      <View key={problem.id} style={styles.stageItem}>
+                      <Div key={problem.id}  borderColor="gray400" borderWidth={1} py={20}>
                         <InvoiceDetailsItem title={t('stagename')} value={problem.step} />
                         <InvoiceDetailsItem
                           title={t('problem')}
@@ -137,33 +135,30 @@ export default function InvoiceDetails() {
                           value={problem.worker}
                         />
                         <InvoiceDetailsItem title={t('sales')} value={problem.sales} />
-                      </View>
+                      </Div>
                     ))}
                   </>
                 ) : (
-                  <Text style={{ alignSelf: "center" }}>{t('noproblem')}</Text>
+                  <Text fontWeight="bold" my={30} textAlign="center" fontSize={13} color={Colors.primary}>{t('noproblem')}</Text>
                 )}
-              </View>
+              </Div>
             </>
           ) : (
-            <CustomSpinner />
+            <>
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+            </>
+
           )}
-        </View>
-      </ScrollView>
+        </Div>
+      </ScrollDiv>
       <BottomNav />
-    </View>
+    </Div>
   );
 }
 
-const styles = StyleSheet.create({
-  detailsContainer: {
-    paddingBottom: 200,
-  },
-  stageItem: {
-    marginBottom: 10,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: PublicStyles.lightColor,
-    borderRadius: 10,
-  }
-});
+

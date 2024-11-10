@@ -1,25 +1,23 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import {
   Alert,
-  ScrollView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+
 } from "react-native";
 import { DataContext } from "../../ContextData/DataProvider";
-import { PublicStyles } from "../../styles/PublicStyles";
 import { useNavigation } from "@react-navigation/native";
-import InvoiceItem from "./InvoiceItem";
-import CustomSpinner from "../../customComponents/CustomSpinner";
+
 import { useTranslation } from "react-i18next";
-import SearchBox from "../../components/SearchBox";
 import { AuthContextData } from "../../ContextData/AuthContext";
 import axios from "axios";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { useTheme } from "../../ContextData/ThemeContext";
 import BottomNav from "../../components/BottomNav";
-import Header from "../../components/Header";
+import { Div, Button, ScrollDiv, Text } from 'react-native-magnus'
+import InvoiceSkeleton from "../Skeletons/InvoiceSkeleton";
+import CustomInput from "../../customComponents/CustomInput";
+import Colors from "../../config/Colors";
+import InvoiceItem from "../../customComponents/CustomItems/InvoiceItem";
+
 
 export default function Invoices() {
   const {
@@ -38,7 +36,7 @@ export default function Invoices() {
   const [filteredInvoices, setFilteredInvoices] = useState();
   const [auth, setauth] = useContext(AuthContextData);
   const [isAscending, setIsAscending] = useState(true);
-  const { theme } = useTheme();
+
 
   useEffect(() => {
     setFilteredInvoices(invoices);
@@ -109,32 +107,34 @@ export default function Invoices() {
   }, [filteredInvoices, isAscending]);
 
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
-        <View style={PublicStyles.container}>
-          <Header />
+    <Div flex={1}>
+      <ScrollDiv bg={Colors.light}>
+        <Div p={10}>
 
 
-          <View style={styles.flex}>
-             <TouchableOpacity style={[styles.arrangeBtn,theme==='light' ? PublicStyles.backgroundlightColor: PublicStyles.backgroundDarkColor]} onPress={sortInvoices}>
-              <MaterialCommunityIcons name="compare-vertical" size={24} color={theme==='light' ? 'white': 'black'} />
-             </TouchableOpacity>
-             {filteredInvoices && filteredInvoices.length > 0 ? (
-                <Text style={[styles.counter,theme==='light' ? PublicStyles.textDarkMode: PublicStyles.textLightMode]}>{filteredInvoices.length}</Text>
+          {filteredInvoices && filteredInvoices.length > 0 ? (
+            <>
+              <Div row justifyContent="space-between" alignItems="center">
 
-             ):(<></>)}
-          </View>
+                <Button onPress={sortInvoices} bg={Colors.primary} h={40} w={40} rounded="lg">
+                  <MaterialCommunityIcons name="compare-vertical" size={17} color={Colors.titary} />
+                </Button>
+
+                <Text fontWeight="bold" fontSize={15} >{filteredInvoices.length}</Text>
+
+              </Div>
+
+              <CustomInput icon='search' placeholder={'Enter-Invoice-Number'}
+                value={searchquery}
+                onchangetext={(text) => {
+                  setSearchQuery(text);
+                  handleSearch();
+                }} />
+            </>
+          ) : (<></>)}
 
 
 
-
-          <SearchBox
-            value={searchquery}
-            onchangetext={(text) => {
-              setSearchQuery(text);
-              handleSearch();
-            }}
-          />
           {filteredInvoices && filteredInvoices.length > 0 ? (
             <>
               {filteredInvoices.length > 0 ? (
@@ -147,6 +147,7 @@ export default function Invoices() {
                       carType={invoice.carType}
                       carService={invoice.carService}
                       price={invoice.price}
+                      sales={invoice.sales}
                       onpressEdit={() =>
                         navigation.navigate("Edit Invoice", { invoice: invoice })
                       }
@@ -166,48 +167,25 @@ export default function Invoices() {
                   ))}
                 </>
               ) : (
-                <Text style={{ textAlign: "center", fontWeight: "bold" }}>
-                  There is No Invoices Found
+                <Text fontWeight="bold" textAlign="center">
+                 {t('no-data')}
                 </Text>
               )}
             </>
           ) : (
             <>
-              <CustomSpinner />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
+              <InvoiceSkeleton />
             </>
           )}
-        </View>
-      </ScrollView>
+        </Div>
+      </ScrollDiv>
       <BottomNav />
-    </View>
+    </Div>
   );
 }
 
-
-const styles = StyleSheet.create({
- 
-  arrangeBtn: {
-    width:35,
-    height:35,
-    borderRadius: 10,
-    padding: 5,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-   
-  },
-  flex:{
-    display:'flex',
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
-    marginTop:10,
-    marginBottom:10,
-  },
-  counter:{
-    fontSize: 15,
-    fontWeight: "bold",
-    
-  }
-  
-})

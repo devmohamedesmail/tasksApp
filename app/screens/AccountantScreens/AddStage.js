@@ -1,15 +1,6 @@
 import { useRoute } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  Alert,
-  ActivityIndicator,
-} from "react-native";
-import { PublicStyles } from "../../styles/PublicStyles";
-
+import {  Alert,ActivityIndicator,} from "react-native";
 import { DataContext } from "../../ContextData/DataProvider";
 import CustomPicker from "../../customComponents/CustomPicker";
 import CustomDateTimePicker from "../../customComponents/CustomDateTimePicker";
@@ -19,9 +10,9 @@ import { useTranslation } from "react-i18next";
 import BackendData from "../../utilities/BackendData";
 import CustomMultiSelect from "../../customComponents/CustomMultiSelect";
 import CustomDateButton from "../../customComponents/CustomDateButton";
-import { useTheme } from "../../ContextData/ThemeContext";
 import BottomNav from "../../components/BottomNav";
-import Header from "../../components/Header";
+import { Div,ScrollDiv} from "react-native-magnus";
+import Colors from "../../config/Colors";
 
 
 export default function AddStage() {
@@ -39,7 +30,7 @@ export default function AddStage() {
   const { t } = useTranslation();
   const [carProcess, setCarProcess] = useState()
   const [stage, setStage] = useState();
-  const { theme } = useTheme();
+
 
 
 
@@ -114,19 +105,11 @@ export default function AddStage() {
   };
 
 
-
-
-
-
-
-
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
-        <View style={PublicStyles.container}>
-          <Header />
-          <Text style={[PublicStyles.screenTitle, theme==='light'? PublicStyles.textDarkMode : PublicStyles.textLightMode]}>{t('addstage')}</Text>
-
+    <Div flex={1}>
+      <ScrollDiv bg={Colors.light}>
+        <Div py={30} px={10}>
+        
           <CustomPicker
             items={carProcess}
             selectedItem={stage}
@@ -150,16 +133,11 @@ export default function AddStage() {
 
 
 
-          <View
-            style={[
-              PublicStyles.row,
-              PublicStyles.justifyBetween,
-              { marginTop: 20, marginBottom: 20 },
-            ]}
+          <Div my={20} row justifyContent="space-between" alignItems="center"
           >
 
 
-            <CustomDateButton onpress={() => setPickerRdateVisible(true)} title={t('startdate')} />
+            <CustomDateButton bg="green700" onpress={() => setPickerRdateVisible(true)} title={t('startdate')} />
 
             <CustomDateTimePicker
               isVisible={isPickerRdateVisible}
@@ -168,14 +146,14 @@ export default function AddStage() {
             />
 
 
-            <CustomDateButton onpress={() => setPickerDdateVisible(true)} title={t('enddate')} />
+            <CustomDateButton bg="red700" onpress={() => setPickerDdateVisible(true)} title={t('enddate')} />
 
             <CustomDateTimePicker
               isVisible={isPickerDdateVisible}
               onClose={() => setPickerDdateVisible(false)}
               onConfirm={handleConfirmEdate}
             />
-          </View>
+          </Div>
 
           {loading ? (
             <CustomButton
@@ -187,27 +165,11 @@ export default function AddStage() {
               onpress={() => handleAddInvoieceStage()}
             />
           )}
-        </View>
-      </ScrollView>
+        </Div>
+      </ScrollDiv>
       <BottomNav />
-    </View>
+    </Div>
   );
 }
 
-const styles = StyleSheet.create({
-  dateBtn: {
-    borderWidth: 1,
-    borderColor: "gray",
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-    width: "45%",
-    textAlign: "center",
-  },
-  dateBtnText: {
-    textAlign: "center",
-  },
-  selectedText: {
-    backgroundColor: PublicStyles.primaryColor
-  }
-});
+

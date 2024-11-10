@@ -5,15 +5,19 @@ import { useTranslation } from 'react-i18next'
 import axios from 'axios';
 import BackendData from '../../utilities/BackendData';
 import InvoiceDetailsItem from '../AccountantScreens/InvoiceDetailsItem';
-import CustomSpinner from '../../customComponents/CustomSpinner';
-import { useTheme } from '../../ContextData/ThemeContext';
+
 import BottomNav from '../../components/BottomNav';
 import Header from '../../components/Header';
+import { Div, ScrollDiv } from 'react-native-magnus';
+import BackButton from '../../components/BackButton';
+import DrawerComponent from '../../components/DrawerComponent';
+import InvoiceSkeleton from '../Skeletons/InvoiceSkeleton';
+import Colors from '../../config/Colors';
 
 export default function Problems() {
     const { t } = useTranslation();
     const [problems, setProblems] = useState();
-    const { theme } = useTheme();
+ 
 
 
 
@@ -32,15 +36,14 @@ export default function Problems() {
 
 
     return (
-      <View style={{ flex:1 }}>
-          <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
-            <View style={PublicStyles.container}>
-                <Header />
-                <Text style={[PublicStyles.screenTitle,theme==='light'? PublicStyles.textDarkMode : PublicStyles.textLightMode]}>{t('problems')}</Text>
+      <Div flex={1}>
+          <ScrollDiv bg={Colors.light}>
+            <Div py={30} px={10}>
+            
                 {problems ? (
                     <>
                     {problems.map((problem)=>(
-                        <View style={styles.item}>
+                        <View style={styles.item} key={problem.id}>
                             <InvoiceDetailsItem  title={t('stagename')} value={problem.step}/>
                             <InvoiceDetailsItem  title={t('problem')} value={problem.problem}/>
                             <InvoiceDetailsItem  title={t('reason')} value={problem.reason}/>
@@ -52,13 +55,19 @@ export default function Problems() {
                     ))}
                     </>
                     ):(<>
-                    <CustomSpinner />
-                    
+                     <InvoiceSkeleton />
+                     <InvoiceSkeleton />
+                     <InvoiceSkeleton />
+                     <InvoiceSkeleton />
+                     <InvoiceSkeleton />
+                     <InvoiceSkeleton />
+                     <InvoiceSkeleton />
+                     <InvoiceSkeleton />
                     </>)}
-            </View>
-        </ScrollView>
+            </Div>
+        </ScrollDiv>
         <BottomNav />
-      </View>
+      </Div>
     )
 }
 

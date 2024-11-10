@@ -1,36 +1,15 @@
 import React from 'react'
-import { TouchableOpacity, View ,StyleSheet,Text} from 'react-native'
-import { PublicStyles } from '../styles/PublicStyles'
-import { useTheme } from '../ContextData/ThemeContext'
 
-export default function CustomButton({title,onpress}) {
-  const {theme} = useTheme()
+import { Button, Text ,Div} from 'react-native-magnus'
+import Colors from '../config/Colors'
+
+export default function CustomButton({ title, onpress }) {
+
   return (
-   <View>
-       <TouchableOpacity style={[styles.btn,theme==='light'? PublicStyles.backgroundlightColor:PublicStyles.backgroundDarkColor]} onPress={onpress}>
-          <Text style={[styles.textBtn,theme==='light'?PublicStyles.textLightMode:PublicStyles.textDarkMode]}>{title}</Text>
-        </TouchableOpacity>
-   </View>
+    <Div>
+      <Button bg={Colors.primary} h={60} mt={20} w='100%' rounded="lg" onPress={onpress}>
+        <Text color='white' fontWeight='bold'>{title}</Text>
+      </Button>
+    </Div>
   )
 }
-
-
-const styles = StyleSheet.create({
-
-    btn: {
-      paddingRight: 20,
-      paddingLeft: 20,
-      paddingTop:15,
-      paddingBottom:15,
-      width: '100%',
-      alignSelf: 'center',
-      marginTop: 20,
-    },
-   
-    textBtn: {
-      textAlign: 'center',
-      color: 'white',
-      fontWeight: 'bold',
-    },
-
-  })

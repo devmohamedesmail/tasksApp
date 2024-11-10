@@ -1,13 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet
-} from "react-native";
+import { ActivityIndicator, Alert, ScrollView, View, StyleSheet } from "react-native";
 import { PublicStyles } from "../../styles/PublicStyles";
 import CustomInput from "../../customComponents/CustomInput";
 import CustomButton from "../../customComponents/CustomButton";
@@ -20,9 +12,12 @@ import CustomDateTimePicker from "../../customComponents/CustomDateTimePicker";
 import { useTranslation } from "react-i18next";
 import CustomDateButton from "../../customComponents/CustomDateButton";
 import CustomAlert from "../../customComponents/CustomAlert";
-import { useTheme } from "../../ContextData/ThemeContext";
-import Header from "../../components/Header";
 import BottomNav from "../../components/BottomNav";
+import { Div, ScrollDiv, Text } from "react-native-magnus";
+import BackButton from "../../components/BackButton";
+import DrawerComponent from "../../components/DrawerComponent";
+import Colors from "../../config/Colors";
+
 
 export default function AddInvoice() {
   const [branch, setBranch] = useState();
@@ -47,7 +42,8 @@ export default function AddInvoice() {
   const [isPickerRdateVisible, setPickerRdateVisible] = useState(false);
   const [isPickerDdateVisible, setPickerDdateVisible] = useState(false);
   const { t } = useTranslation()
-  const {theme}=useTheme();
+ 
+
 
 
   const {
@@ -146,129 +142,134 @@ export default function AddInvoice() {
     setDdate(`${formattedDate} ${formattedTime}`);
   };
 
+
+  
+ 
+
   return (
-   <View style={{ flex:1 }}>
-     <ScrollView style={[theme === 'light' ? PublicStyles.screenLight : PublicStyles.screenDark]}>
-      {auth ? (
-        <View style={[PublicStyles.container, { paddingBottom: 100 }]}>
-          <Header />
-          <Text style={[PublicStyles.screenTitle,theme==='light'? PublicStyles.textDarkMode : PublicStyles.textLightMode ]}>{t('addinvoice')}</Text>
+    <Div flex={1}>
+      <ScrollDiv bg={Colors.light}>
+        {auth ? (
+          <View style={[PublicStyles.container, { paddingBottom: 100 }]}>
 
-          <CustomPicker
-            items={branches}
-            selectedItem={branchItem}
-            onSelect={handleSelectbranch}
-            displayKey="name"
-            selectoption={t("selectbranch")}
-          />
-
-          <CustomPicker
-            items={invoiceTypes}
-            selectedItem={invoiceTypeItem}
-            onSelect={handleSelectInvoiceType}
-            displayKey="type"
-            selectoption={t("selectinvoicetype")}
-          />
+            <Text fontWeight="bold" textAlign="center" my={20} fontSize={15}>{t('addinvoice')}</Text>
 
 
-
-          <CustomInput
-            placeholder={t("name")}
-            value={name}
-            onchangetext={(text) => setName(text)}
-          />
-          <CustomInput
-            placeholder={t("phone")}
-            value={phone}
-            onchangetext={(text) => setPhone(text)}
-          />
-
-          <CustomInput
-            placeholder={t("address")}
-            value={address}
-            onchangetext={(text) => setAddress(text)}
-          />
-
-          <CustomInput
-            placeholder={t("carno")}
-            value={carNo}
-            onchangetext={(text) => setCarno(text)}
-          />
-
-          <CustomInput
-            placeholder={t("cartype")}
-            value={carType}
-            onchangetext={(text) => setCartype(text)}
-          />
-
-          <CustomInput
-            placeholder={t("carservice")}
-            value={carService}
-            onchangetext={(text) => setService(text)}
-          />
-          <CustomInput
-            placeholder={t("price")}
-            value={price}
-            onchangetext={(text) => setPrice(text)}
-          />
-
-          <CustomInput
-            placeholder={t("description")}
-            value={description}
-            onchangetext={(text) => setCarDescription(text)}
-          />
-          <CustomInput
-            placeholder={t("note")}
-            value={note}
-            onchangetext={(text) => setNote(text)}
-          />
-          <CustomInput
-            placeholder={t("percent")}
-            value={percent}
-            onchangetext={(text) => setPercent(text)}
-          />
-
-          <View
-            style={[
-              PublicStyles.row,
-              PublicStyles.justifyBetween,
-              { marginTop: 20, marginBottom: 20 },
-            ]}
-          >
-
-            <CustomDateButton title={t("rdate")} onpress={() => setPickerRdateVisible(true)} />
-
-            <CustomDateTimePicker
-              isVisible={isPickerRdateVisible}
-              onClose={() => setPickerRdateVisible(false)}
-              onConfirm={handleConfirmRdate}
+            <CustomPicker
+              items={branches}
+              selectedItem={branchItem}
+              onSelect={handleSelectbranch}
+              displayKey="name"
+              selectoption={t("selectbranch")}
             />
 
-            <CustomDateButton title={t("ddate")} onpress={() => setPickerDdateVisible(true)} />
-
-            <CustomDateTimePicker
-              isVisible={isPickerDdateVisible}
-              onClose={() => setPickerDdateVisible(false)}
-              onConfirm={handleConfirmDdate}
+            <CustomPicker
+              items={invoiceTypes}
+              selectedItem={invoiceTypeItem}
+              onSelect={handleSelectInvoiceType}
+              displayKey="type"
+              selectoption={t("selectinvoicetype")}
             />
+
+
+
+            <CustomInput
+              placeholder={t("name")}
+              value={name}
+              onchangetext={(text) => setName(text)}
+            />
+            <CustomInput
+              placeholder={t("phone")}
+              value={phone}
+              onchangetext={(text) => setPhone(text)}
+            />
+
+            <CustomInput
+              placeholder={t("address")}
+              value={address}
+              onchangetext={(text) => setAddress(text)}
+            />
+
+            <CustomInput
+              placeholder={t("carno")}
+              value={carNo}
+              onchangetext={(text) => setCarno(text)}
+            />
+
+            <CustomInput
+              placeholder={t("cartype")}
+              value={carType}
+              onchangetext={(text) => setCartype(text)}
+            />
+
+            <CustomInput
+              placeholder={t("carservice")}
+              value={carService}
+              onchangetext={(text) => setService(text)}
+            />
+            <CustomInput
+              placeholder={t("price")}
+              value={price}
+              onchangetext={(text) => setPrice(text)}
+            />
+
+            <CustomInput
+              placeholder={t("description")}
+              value={description}
+              onchangetext={(text) => setCarDescription(text)}
+            />
+            <CustomInput
+              placeholder={t("note")}
+              value={note}
+              onchangetext={(text) => setNote(text)}
+            />
+            <CustomInput
+              placeholder={t("percent")}
+              value={percent}
+              onchangetext={(text) => setPercent(text)}
+            />
+
+            <View
+              style={[
+                PublicStyles.row,
+                PublicStyles.justifyBetween,
+                { marginTop: 20, marginBottom: 20 },
+              ]}
+            >
+
+              <CustomDateButton title={t("rdate")} onpress={() => setPickerRdateVisible(true)} bg='blue600' />
+
+              <CustomDateTimePicker
+                isVisible={isPickerRdateVisible}
+                onClose={() => setPickerRdateVisible(false)}
+                onConfirm={handleConfirmRdate}
+              />
+
+              <CustomDateButton title={t("ddate")} onpress={() => setPickerDdateVisible(true)} bg='red400' />
+
+              <CustomDateTimePicker
+                isVisible={isPickerDdateVisible}
+                onClose={() => setPickerDdateVisible(false)}
+                onConfirm={handleConfirmDdate}
+              />
+            </View>
+
+
+
+            {loading ? (
+              <CustomButton
+                title={<ActivityIndicator size="small" color="white" />}
+
+              />
+            ) : (
+              <CustomButton title={t("add")} onpress={handleAddInvoie} />
+            )}
           </View>
+        ) : <CustomAlert alert={t('alert-connection')} />}
 
-        
-
-          {loading ? (
-            <CustomButton
-              title={<ActivityIndicator size="small" color="white" />}
-
-            />
-          ) : (
-            <CustomButton title={t("add")} onpress={handleAddInvoie} />
-          )}
-        </View>
-      ) :   <CustomAlert alert={t('alert-connection')} />}
-      
-    </ScrollView>
-    <BottomNav />
-   </View>
+      </ScrollDiv>
+      <BottomNav />
+    </Div>
   );
 }
 

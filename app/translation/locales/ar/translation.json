@@ -185,5 +185,20 @@
   "go-to-store": "Go to store",
   "updateNow": "Update Now",
   "after-update": "Update downloaded. Restarting app...",
-  "scroll-right":"قم بالتمرير ناحيه اليمين للمزيد"
+  "scroll-right": "قم بالتمرير ناحيه اليمين للمزيد",
+  "please-wait": "من فضلك انتظر لجب البيانات",
+  "statistics": "الاحصائيات",
+  "sales-statistics": "احصائيات المبيعات",
+  "task-statistics": "احصائيات العمال",
+  "problem-statistics": "احصائيات المشاكل",
+  "delete": "مسح",
+  "show": "عرض",
+  "jobcards": "Job Cards",
+  "expired": "انتهي الوقت",
+  "complete-stage": "اكتمال المرحله",
+  "no-data": "لا توجد بيانات",
+  "staff-details": "تفاصيل الموظف",
+  "pause": "ايفاف",
+  "done":"تم الانتهاء",
+  "running":"جاري العمل"
 }
