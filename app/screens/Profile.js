@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, ScrollView, } from "react-native";
-import { PublicStyles } from "../styles/PublicStyles";
 import { useTranslation } from "react-i18next";
 import { AuthContextData } from "../ContextData/AuthContext";
 import CustomButton from "../customComponents/CustomButton";
@@ -9,13 +7,11 @@ import BackendData from "../utilities/BackendData";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomNav from "../components/BottomNav";
-
-import BackButton from "../components/BackButton";
-import DrawerComponent from "../components/DrawerComponent";
 import { Div, Text, Image, ScrollDiv } from "react-native-magnus";
 import ItemSkeletion from "./Skeletons/ItemSkeletion";
 import ToggleLangButton from "../components/TogglelangButton/ToggleLangButton";
 import Colors from "../config/Colors";
+import { ActivityIndicator } from "react-native";
 
 
 
@@ -25,6 +21,7 @@ export default function Profile() {
   const [info, setInfo] = useState(null);
   const [auth, setauth] = useContext(AuthContextData);
   const navigation = useNavigation();
+  const [loading, setloading] = useState(false);
 
   useEffect(() => {
     setInfo(auth);
@@ -36,6 +33,7 @@ export default function Profile() {
 
 
   const handlelogout = async () => {
+    setloading(true);
     try {
 
       const token = auth?.token;
@@ -66,8 +64,12 @@ export default function Profile() {
         navigation.navigate('Login');
 
       }
+      setloading(false);
     } catch (error) {
       console.error('Logout failed', error);
+      setloading(false);
+    }finally{
+      setloading(false);
     }
   };
 
@@ -108,8 +110,11 @@ export default function Profile() {
             <ToggleLangButton />
           </Div>
 
-          <CustomButton title={t('logout')} onpress={() => handlelogout()} />
-
+          <Div my={40}>
+          {loading ? <ActivityIndicator color={Colors.primary} size="large" /> : <CustomButton title={t('logout')} onpress={() => handlelogout()} />}
+          </Div>
+           
+          
 
         </Div>
       </ScrollDiv>

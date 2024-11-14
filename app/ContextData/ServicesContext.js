@@ -5,17 +5,10 @@ import BackendData from "../utilities/BackendData";
 export const ServicesContextData = createContext();
 
 export default function ServicesContext({ children }) {
-  const [servicesData, setServicesData] = useState([]);
+  
   const [carstypesData, setcartypesData] = useState([]);
 
-  const fetchServicesData = async () => {
-    try {
-      const response = await axios.get(`${BackendData.url}show/services`);
-      setServicesData(response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+ 
 
   const fetchCarsTypesData = async () => {
     try {
@@ -27,13 +20,13 @@ export default function ServicesContext({ children }) {
   };
 
   useEffect(() => {
-    fetchServicesData();
+   
     fetchCarsTypesData();
   }, []);
 
   return (
     <ServicesContextData.Provider
-      value={[servicesData, fetchServicesData, carstypesData, fetchCarsTypesData]}
+      value={{carstypesData, fetchCarsTypesData}}
     >
       {children}
     </ServicesContextData.Provider>

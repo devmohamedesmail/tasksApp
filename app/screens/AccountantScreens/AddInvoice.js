@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ActivityIndicator, Alert, ScrollView, View, StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  View,
+  StyleSheet,
+} from "react-native";
 import { PublicStyles } from "../../styles/PublicStyles";
 import CustomInput from "../../customComponents/CustomInput";
 import CustomButton from "../../customComponents/CustomButton";
@@ -13,17 +19,25 @@ import { useTranslation } from "react-i18next";
 import CustomDateButton from "../../customComponents/CustomDateButton";
 import CustomAlert from "../../customComponents/CustomAlert";
 import BottomNav from "../../components/BottomNav";
-import { Div, ScrollDiv, Text } from "react-native-magnus";
-import BackButton from "../../components/BackButton";
-import DrawerComponent from "../../components/DrawerComponent";
+import {
+  Div,
+  ScrollDiv,
+  Text,
+  Dropdown,
+  Button,
+  Icon,
+} from "react-native-magnus";
 import Colors from "../../config/Colors";
-
+import ServicesContext, {
+  ServicesContextData,
+} from "../../ContextData/ServicesContext";
 
 export default function AddInvoice() {
   const [branch, setBranch] = useState();
   const [branchItem, setBranchItem] = useState();
   const [invoiceType, setInvoiceType] = useState("");
   const [invoiceTypeItem, setInvoiceTypeItem] = useState("");
+  const [carTypeItem, setCarTypeItem] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
@@ -41,10 +55,9 @@ export default function AddInvoice() {
   const [auth, setAuth] = useContext(AuthContextData);
   const [isPickerRdateVisible, setPickerRdateVisible] = useState(false);
   const [isPickerDdateVisible, setPickerDdateVisible] = useState(false);
-  const { t } = useTranslation()
- 
-
-
+  const { t } = useTranslation();
+  const dropdownRef = React.createRef();
+  const [newCarType, setNewCarType] = useState("");
 
   const {
     branches,
@@ -53,12 +66,25 @@ export default function AddInvoice() {
     fetchInvoiceTypes,
     paidMethods,
     fetchPaidMethods,
-    invoices, fetchInvoices, staff, fetchStaff
+    invoices,
+    fetchInvoices,
+    staff,
+    fetchStaff,
   } = useContext(DataContext);
 
+  const { carstypesData, fetchCarsTypesData } = useContext(ServicesContextData);
+
   const handleAddInvoie = async () => {
-    if (!branch || !invoiceType || !note || !carNo || !carType || !carService || !price) {
-      Alert.alert(t('validationError'), t('requiredFieldsMissing'));
+    if (
+      !branch ||
+      !invoiceType ||
+      !note ||
+      !carNo ||
+      !carType ||
+      !carService ||
+      !price
+    ) {
+      Alert.alert(t("validationError"), t("requiredFieldsMissing"));
       return;
     }
     try {
@@ -104,12 +130,10 @@ export default function AddInvoice() {
       setRdate("");
       setDdate("");
       setNote("");
-      Alert.alert(t('added'));
+      Alert.alert(t("added"));
     } catch (error) {
       setLoading(false);
-      Alert.alert(
-        t('problemhappened')
-      );
+      Alert.alert(t("problemhappened"));
       console.log(error);
     }
   };
@@ -120,15 +144,19 @@ export default function AddInvoice() {
     }
   }, [auth]);
 
-
-
   const handleSelectInvoiceType = (item) => {
     setInvoiceType(item.type);
     setInvoiceTypeItem(item);
+    console.log(item.type);
   };
   const handleSelectbranch = (item) => {
     setBranch(item.id);
     setBranchItem(item);
+  };
+
+  const handleSelectCarType = (item) => {
+    setCartype(item.type);
+    setCarTypeItem(item);
   };
 
   const handleConfirmRdate = (date) => {
@@ -142,36 +170,51 @@ export default function AddInvoice() {
     setDdate(`${formattedDate} ${formattedTime}`);
   };
 
-
-  
- 
+  const handleAddNewCarType = async () => {
+    if (!newCarType || newCarType.trim() === "") {
+      console.log("Car type cannot be empty or null.");
+      return; 
+    }
+    setLoading(true);
+    try {
+      await axios.post(`${BackendData.url}add/car/type`, {
+        type: newCarType,
+      });
+      fetchCarsTypesData();
+      setLoading(false);
+      console.log("Car type added successfully");
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Div flex={1}>
       <ScrollDiv bg={Colors.light}>
         {auth ? (
           <View style={[PublicStyles.container, { paddingBottom: 100 }]}>
-
-            <Text fontWeight="bold" textAlign="center" my={20} fontSize={15}>{t('addinvoice')}</Text>
-
+            <Text fontWeight="bold" textAlign="center" my={20} fontSize={15}>
+              {t("addinvoice")}
+            </Text>
 
             <CustomPicker
               items={branches}
               selectedItem={branchItem}
-              onSelect={handleSelectbranch}
               displayKey="name"
               selectoption={t("selectbranch")}
+              onPress={handleSelectbranch}
             />
 
             <CustomPicker
               items={invoiceTypes}
               selectedItem={invoiceTypeItem}
-              onSelect={handleSelectInvoiceType}
               displayKey="type"
               selectoption={t("selectinvoicetype")}
+              onPress={handleSelectInvoiceType}
             />
-
-
 
             <CustomInput
               placeholder={t("name")}
@@ -201,6 +244,52 @@ export default function AddInvoice() {
               value={carType}
               onchangetext={(text) => setCartype(text)}
             />
+            <CustomPicker
+              items={carstypesData}
+              selectedItem={carTypeItem}
+              displayKey="type"
+              selectoption={t("selectcartype")}
+              onPress={handleSelectCarType}
+            />
+
+            <Div
+              flexDir="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Div flex={1}>
+                <CustomInput
+                  placeholder={t("new-car-type")}
+                  value={newCarType}
+                  onchangetext={(text) => setNewCarType(text)}
+                />
+              </Div>
+
+              {loading ? (
+                <Button
+                  bg={Colors.primary}
+                  mt={20}
+                  mx={10}
+                  h={40}
+                  w={40}
+                  rounded="circle"
+                >
+                  <ActivityIndicator color={Colors.secondary} />
+                </Button>
+              ) : (
+                <Button
+                  bg={Colors.primary}
+                  mt={20}
+                  mx={10}
+                  h={40}
+                  w={40}
+                  rounded="circle"
+                  onPress={() => handleAddNewCarType()}
+                >
+                  <Icon name="plus" color="white" fontWeight="bold" />
+                </Button>
+              )}
+            </Div>
 
             <CustomInput
               placeholder={t("carservice")}
@@ -236,8 +325,11 @@ export default function AddInvoice() {
                 { marginTop: 20, marginBottom: 20 },
               ]}
             >
-
-              <CustomDateButton title={t("rdate")} onpress={() => setPickerRdateVisible(true)} bg='blue600' />
+              <CustomDateButton
+                title={t("rdate")}
+                onpress={() => setPickerRdateVisible(true)}
+                bg="blue600"
+              />
 
               <CustomDateTimePicker
                 isVisible={isPickerRdateVisible}
@@ -245,7 +337,11 @@ export default function AddInvoice() {
                 onConfirm={handleConfirmRdate}
               />
 
-              <CustomDateButton title={t("ddate")} onpress={() => setPickerDdateVisible(true)} bg='red400' />
+              <CustomDateButton
+                title={t("ddate")}
+                onpress={() => setPickerDdateVisible(true)}
+                bg="red400"
+              />
 
               <CustomDateTimePicker
                 isVisible={isPickerDdateVisible}
@@ -254,38 +350,34 @@ export default function AddInvoice() {
               />
             </View>
 
-
-
             {loading ? (
               <CustomButton
                 title={<ActivityIndicator size="small" color="white" />}
-
               />
             ) : (
               <CustomButton title={t("add")} onpress={handleAddInvoie} />
             )}
           </View>
-        ) : <CustomAlert alert={t('alert-connection')} />}
-
+        ) : (
+          <CustomAlert alert={t("alert-connection")} />
+        )}
       </ScrollDiv>
       <BottomNav />
     </Div>
   );
 }
 
-
 const styles = StyleSheet.create({
   dateBtn: {
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
-    width: '45%',
-    textAlign: 'center'
+    width: "45%",
+    textAlign: "center",
   },
   dateBtnText: {
-    textAlign: 'center'
-  }
-
-})
+    textAlign: "center",
+  },
+});

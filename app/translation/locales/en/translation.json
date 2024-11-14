@@ -200,5 +200,7 @@
   "staff-details":"Staff Details",
   "pause":"Pause",
   "done":"Done",
-  "running":"Running"
+  "running":"Running",
+  "new-car-type":"Add New Car Type",
+  "selectcartype":"Select Car Type"
 }

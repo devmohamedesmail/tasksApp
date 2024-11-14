@@ -14,6 +14,7 @@ import BottomNav from "../../components/BottomNav";
 import CustomDateButton from "../../customComponents/CustomDateButton";
 import { Div,ScrollDiv,Text } from "react-native-magnus";
 import Colors from "../../config/Colors";
+import { ServicesContextData } from "../../ContextData/ServicesContext";
 
 export default function EditInvoice() {
   const route = useRoute();
@@ -32,6 +33,7 @@ export default function EditInvoice() {
   const [price, setPrice] = useState(invoice.price);
   const [percent, setPercent] = useState(invoice.percent);
   const [description, setCarDescription] = useState(invoice.description);
+  const [carTypeItem, setCarTypeItem] = useState("");
   const [note, setNote] = useState(invoice.note);
   const [Rdate, setRdate] = useState("");
   const [Ddate, setDdate] = useState("");
@@ -41,6 +43,7 @@ export default function EditInvoice() {
   const [isPickerRdateVisible, setPickerRdateVisible] = useState(false);
   const [isPickerDdateVisible, setPickerDdateVisible] = useState(false);
   const { t } = useTranslation();
+  const { carstypesData, fetchCarsTypesData } = useContext(ServicesContextData);
 
 
 
@@ -68,6 +71,11 @@ export default function EditInvoice() {
     const formattedDate = date.toLocaleDateString();
     const formattedTime = date.toLocaleTimeString();
     setDdate(`${formattedDate} ${formattedTime}`);
+  };
+
+  const handleSelectCarType = (item) => {
+    setCartype(item.type);
+    setCarTypeItem(item);
   };
 
 
@@ -114,15 +122,16 @@ export default function EditInvoice() {
           <CustomPicker
             items={branches}
             selectedItem={branchItem}
-            onSelect={handleSelectbranch}
+          
             displayKey="name"
             selectoption={t('selectbranch')}
+            onPress={handleSelectbranch}
           />
 
           <CustomPicker
             items={invoiceTypes}
             selectedItem={invoiceTypeItem}
-            onSelect={handleSelectInvoiceType}
+            
             displayKey="type"
             selectoption={t('selectinvoicetype')}
           />
@@ -157,11 +166,13 @@ export default function EditInvoice() {
             onchangetext={(text) => setCarno(text)}
           />
 
-          <CustomInput
-            placeholder="Car Type"
-            value={carType}
-            onchangetext={(text) => setCartype(text)}
-          />
+             <CustomPicker
+              items={carstypesData}
+              selectedItem={carTypeItem}
+              displayKey="type"
+              selectoption={t("selectcartype")}
+              onPress={handleSelectCarType}
+            />
 
           <CustomInput
             placeholder="Service"
