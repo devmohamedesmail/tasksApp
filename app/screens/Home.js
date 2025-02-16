@@ -12,7 +12,7 @@ import boy from "../images/icons/boy.png"
 import card from "../images/icons/card.png"
 import statistics from "../images/icons/analytics.png"
 import { AuthContextData } from "../ContextData/AuthContext";
-import { Div, ScrollDiv } from "react-native-magnus";
+import { Div, ScrollDiv,Text } from "react-native-magnus";
 import Colors from "../config/Colors";
 
 
@@ -28,9 +28,10 @@ export default function Home() {
 
   return (
     <Div flex={1}>
-      <ScrollDiv bg={Colors.light}> 
+      <ScrollDiv bg={Colors.screen}> 
         <Div p={10}>
-          <Div row justifyContent="space-between" flexWrap="wrap" mt={20}>
+          
+          <Div row justifyContent="space-between" flexWrap="wrap" mt={30}>
             <CustomHomeCard bg='blue400' title={t('statistics')} image={statistics} onPress={() => navigation.navigate('Statistics')} />
             <CustomHomeCard bg='yellow600' title={t('invoices')} image={invoice} onPress={() => navigation.navigate('Invoices')} />
             <CustomHomeCard bg='orange600' title={t('addinvoice')} image={addinvoice} onPress={() => navigation.navigate('AddInvoice')} />

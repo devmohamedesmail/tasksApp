@@ -9,9 +9,10 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import BackendData from '../utilities/BackendData';
 import Header from '../components/Header';
-import { Div,Text } from 'react-native-magnus';
+import { Div,ScrollDiv,Text } from 'react-native-magnus';
 import CustomRedirectButton from '../customComponents/CustomRedirectButton';
 import Logo from '../components/Logo';
+import Colors from '../config/Colors';
 
 export default function Register() {
     const [name, setName] = useState('');
@@ -43,26 +44,26 @@ export default function Register() {
 
 
     return (
-        <ScrollView style={PublicStyles.screenLight}>
-            <View style={PublicStyles.container}>
+        <ScrollDiv bg={Colors.screen} px={10}>
+            <Div>
                
-                <View style={styles.loginContainer}>
+                <Div mt={50}>
                     <Logo />
-                      <Text fontWeight='bold' fontSize={15} m='auto' mb={20}>{t('register')}</Text>
+                      <Text fontWeight='bold' fontSize={15} m='auto' textAlign='center' mb={20}>{t('register')}</Text>
                     
                     <CustomInput icon='user' placeholder={t('name')} value={name} onchangetext={(text) => setName(text)} />
                     <CustomInput icon='mail' placeholder={t('email')} value={email} onchangetext={(text) => setEmail(text)} />
                     <CustomInput icon='lock' placeholder={t('password')} value={password} onchangetext={(text) => setPassword(text)} secureTextEntry={true} />
 
                     {loading ? (<CustomButton title={<ActivityIndicator color='white' size='small' />} onpress={() => handleRegister()} />) : (<CustomButton title={t('register')} onpress={() => handleRegister()} />)}
-                    <Div row justifyContent='flex-start' mx={10} my={30} alignItems='center'>
+                    <Div row justifyContent='center' mx={10} my={30} alignItems='center'>
                         <Text>{t('haveaccount')}</Text>
                         <CustomRedirectButton onPress={() => navigation.navigate('Login')} title={t('login')} />
                     </Div>
 
-                </View>
-            </View>
-        </ScrollView>
+                </Div>
+            </Div>
+        </ScrollDiv>
     )
 }
 

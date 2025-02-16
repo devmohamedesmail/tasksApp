@@ -24,31 +24,43 @@ export default function AppNavigator() {
     const Stack = createNativeStackNavigator();
     const [auth] = useContext(AuthContextData);
     const { t } = useTranslation();
+
+
+    // if (!auth || !auth.user) {
+    //     return (
+    //         <Stack.Navigator initialRouteName="Login">
+    //             <Stack.Screen
+    //                 name="Login"
+    //                 component={Login}
+    //                 options={{ headerShown: false }}
+    //             />
+    //         </Stack.Navigator>
+    //     );
+    // }
+
+
     return (
 
-
-
         <Stack.Navigator initialRouteName='Home'>
-
-            {auth ? <Stack.Screen
+            <Stack.Screen
                 name="Home"
                 component={Home}
                 options={{
-                    title: t('home'),
-                    headerRight: () => <DrawerComponent />
+                    headerTitle: () => null,
+                    headerRight: () => <DrawerComponent />,
+                    
                 }}
-            /> :
-                <Stack.Screen
-                    name="Login"
-                    component={Login}
-                    options={{ headerShown: false }}
-                />}
-
-
+            />
 
             <Stack.Screen
                 name="Register"
                 component={Register}
+                options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+                name="Login"
+                component={Login}
                 options={{ headerShown: false }}
             />
 

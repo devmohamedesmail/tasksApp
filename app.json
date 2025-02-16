@@ -2,7 +2,7 @@
   "expo": {
     "name": "الاخطبوط الذهبي",
     "slug": "system",
-    "version": "1.0.17",
+    "version": "1.0.20",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -19,7 +19,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "versionCode": 17,
+      "versionCode": 20,
       "package": "com.mohamedesmail9225.alktaboot"
     },
     "web": {

@@ -42,7 +42,7 @@ export default function CustomPicker({
         showSwipeIndicator={true}
         roundedTop="xl"
       >
-        <ScrollView style={{ maxHeight: 400 }}>
+        
           {items.map((item) => (
             <Dropdown.Option py={0} px="xl" my={5} block key={item.id}>
               <Button
@@ -56,7 +56,7 @@ export default function CustomPicker({
               </Button>
             </Dropdown.Option>
           ))}
-        </ScrollView>
+     
       </Dropdown>
     </Div>
   );

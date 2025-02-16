@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { ActivityIndicator, Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native'
-import { PublicStyles } from '../styles/PublicStyles'
+import { ActivityIndicator} from 'react-native'
 import CustomInput from '../customComponents/CustomInput'
 import CustomButton from '../customComponents/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,10 +8,11 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import BackendData from '../utilities/BackendData';
 import { useTranslation } from 'react-i18next';
-import Header from '../components/Header';
 import Logo from '../components/Logo';
-import { Div } from 'react-native-magnus';
+import { Div, ScrollDiv,Text } from 'react-native-magnus';
 import CustomRedirectButton from '../customComponents/CustomRedirectButton';
+import Colors from '../config/Colors';
+import Toast from 'react-native-toast-message';
 
 
 
@@ -40,59 +40,64 @@ export default function Login() {
 
             if (response.data.user.role === 'user' || response.data.user.role === null) {
                 navigation.navigate('Login');
-                Alert.alert(t('notallowedlogin'))
+                
+                Toast.show({
+                    type: 'error',
+                    text1: t('notallowedlogin'),
+                    visibilityTime: 4000, 
+                    autoHide: true 
+                })
             } else {
-                navigation.navigate('JobCards');
+               
+                Toast.show({
+                    type: 'success',
+                    text1: t('loginsuccessfully'),
+                    visibilityTime: 4000, 
+                    autoHide: true 
+                })
+                navigation.navigate('Home');
             }
 
 
         } catch (error) {
             setLoading(false);
-            Alert.alert(t('errorlogin'));
-            console.log(error)
-            setLoading(false)
-
-
+            Toast.show({
+                type: 'error',
+                text1: t('notallowedlogin'),
+                visibilityTime: 4000, 
+                autoHide: true 
+            })
+            
         } finally {
             setLoading(false);
         }
 
     }
     return (
-        <View style={{ flex: 1 }}>
-            <ScrollView style={PublicStyles.screenLight}>
-                <View style={PublicStyles.container}>
-                    {/* <Header /> */}
-
-                    <View style={styles.loginContainer}>
+        <Div style={{ flex: 1 }}>
+            <ScrollDiv px={10} bg={Colors.screen}>
+                <Div>
+                    <Div mt={100} >
                         <Logo />
 
-                        <Text style={[PublicStyles.screenTitle, { marginTop: 40, marginBottom: 40 }]}>{t('login')}</Text>
+                        <Text fontSize={20} fontWeight='bold' my={20} textAlign='center'>{t('login')}</Text>
                         <CustomInput placeholder={t('email')} value={email} onchangetext={(text) => setEmail(text)} icon='mail' />
                         <CustomInput placeholder={t('password')} value={password} onchangetext={(text) => setPassword(text)} secureTextEntry={true} icon='lock' />
 
                         {loading ? (<CustomButton title={<ActivityIndicator color='white' size='small' />} onpress={() => handleLogin()} />) : (<CustomButton title={t('login')} onpress={() => handleLogin()} />)}
 
-                        <Div row justifyContent='flex-start' mx={10} my={30} alignItems='center'>
+                        <Div row justifyContent='center' mx={10} my={30} alignItems='center'>
                             <Text>{t('noaccount')} </Text>
                             <CustomRedirectButton title={t('register')} onPress={() => navigation.navigate('Register')} />
                         </Div>
-                    </View>
-
-
-                </View>
-            </ScrollView>
-            {/* <BottomNav /> */}
-        </View>
+                    </Div>
+                </Div>
+            </ScrollDiv>
+        </Div>
     )
 }
 
 
 
-const styles = StyleSheet.create({
-    loginContainer: {
-        paddingTop: 100,
 
-    }
-})
 

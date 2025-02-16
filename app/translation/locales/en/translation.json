@@ -3,7 +3,7 @@
   "createnewinvoice": "Create New Invoice",
   "showinvoices": "Show Invoices",
   "branches": "Branches",
-  "name": "name",
+  "name": "Name",
   "address": "Address",
   "phone": "Phone",
   "addnewbranch": "Add New Branch",
@@ -173,7 +173,7 @@
   "deletesuccess": "Deleted Successfully",
   "search": "Search",
   "wrongpermission": "You Don't Have Permission To Delete ",
-  "carsstatus": "Cars Status",
+  "carsstatus": "Cars",
   "endstage": "End Stage",
   "stageend": "Stage Ended",
   "delivercar": "Done",
@@ -202,5 +202,6 @@
   "done":"Done",
   "running":"Running",
   "new-car-type":"Add New Car Type",
-  "selectcartype":"Select Car Type"
+  "selectcartype":"Select Car Type",
+  "loginsuccessfully":"Login Successfully"
 }

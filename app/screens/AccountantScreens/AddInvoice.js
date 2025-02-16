@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import CustomDateButton from "../../customComponents/CustomDateButton";
 import CustomAlert from "../../customComponents/CustomAlert";
 import BottomNav from "../../components/BottomNav";
+import { useNavigation } from "@react-navigation/native";
 import {
   Div,
   ScrollDiv,
@@ -27,6 +28,7 @@ import {
   Button,
   Icon,
 } from "react-native-magnus";
+import { Picker } from "@react-native-picker/picker";
 import Colors from "../../config/Colors";
 import ServicesContext, {
   ServicesContextData,
@@ -58,6 +60,7 @@ export default function AddInvoice() {
   const { t } = useTranslation();
   const dropdownRef = React.createRef();
   const [newCarType, setNewCarType] = useState("");
+  const navigation = useNavigation();
 
   const {
     branches,
@@ -154,10 +157,6 @@ export default function AddInvoice() {
     setBranchItem(item);
   };
 
-  const handleSelectCarType = (item) => {
-    setCartype(item.type);
-    setCarTypeItem(item);
-  };
 
   const handleConfirmRdate = (date) => {
     const formattedDate = date.toLocaleDateString();
@@ -173,7 +172,7 @@ export default function AddInvoice() {
   const handleAddNewCarType = async () => {
     if (!newCarType || newCarType.trim() === "") {
       console.log("Car type cannot be empty or null.");
-      return; 
+      return;
     }
     setLoading(true);
     try {
@@ -194,11 +193,16 @@ export default function AddInvoice() {
   return (
     <Div flex={1}>
       <ScrollDiv bg={Colors.light}>
-        {auth ? (
+      
+        {sales ? (
           <View style={[PublicStyles.container, { paddingBottom: 100 }]}>
             <Text fontWeight="bold" textAlign="center" my={20} fontSize={15}>
               {t("addinvoice")}
             </Text>
+
+            <Text fontWeight="bold" textAlign="center">{sales}</Text>
+            
+            
 
             <CustomPicker
               items={branches}
@@ -239,18 +243,29 @@ export default function AddInvoice() {
               onchangetext={(text) => setCarno(text)}
             />
 
-            <CustomInput
-              placeholder={t("cartype")}
-              value={carType}
-              onchangetext={(text) => setCartype(text)}
-            />
-            <CustomPicker
-              items={carstypesData}
-              selectedItem={carTypeItem}
-              displayKey="type"
-              selectoption={t("selectcartype")}
-              onPress={handleSelectCarType}
-            />
+          
+
+            <Div
+              bg="white"
+              rounded="md"
+              borderWidth={2}
+              borderColor="gray300"
+              p="s"
+              mt="m"
+            >
+              <Picker
+                selectedValue={carType}
+                onValueChange={(itemValue, itemIndex) => {
+                  setCartype(itemValue);
+                  
+                }}
+                mode="dropdown"
+              >
+                {carstypesData.map((item) => (
+                  <Picker.Item label={item.type} value={item.type} />
+                ))}
+              </Picker>
+            </Div>
 
             <Div
               flexDir="row"
@@ -359,7 +374,11 @@ export default function AddInvoice() {
             )}
           </View>
         ) : (
+          <Div px={10}>
           <CustomAlert alert={t("alert-connection")} />
+          <CustomButton title={t('login')} onpress={()=> navigation.navigate('Register')} />
+          </Div>
+
         )}
       </ScrollDiv>
       <BottomNav />

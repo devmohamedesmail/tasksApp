@@ -173,7 +173,7 @@
   "deletesuccess": "تم الحذف بنجاح",
   "search": "ابحث",
   "wrongpermission": "للاسف ليس لديك صلاحيات لمسح هذا العنصر",
-  "carsstatus": "حاله السيارات",
+  "carsstatus": " السيارات",
   "endstage": "انهاء المرحله",
   "stageend": "المرحله انتهت",
   "delivercar": "تم الانتهاء",
@@ -202,5 +202,6 @@
   "done": "تم الانتهاء",
   "running": "جاري العمل",
   "new-car-type": "اضافه نوع سياره",
-  "selectcartype": "اختر نوع السياره"
+  "selectcartype": "اختر نوع السياره",
+  "loginsuccessfully":" تم تسجيل الدخول بنجاح"
 }
