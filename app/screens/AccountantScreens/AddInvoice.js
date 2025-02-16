@@ -42,6 +42,7 @@ export default function AddInvoice() {
   const [note, setNote] = useState("");
   const [noteError, setNoteError] = useState(false);
   const [percent, setPercent] = useState("");
+  const [percentError, setPercentError] = useState(false);
   const [Rdate, setRdate] = useState("");
   const [Ddate, setDdate] = useState("");
   const [sales, setSales] = useState("");
@@ -79,6 +80,14 @@ export default function AddInvoice() {
     }
     if (!price) {
       setPriceError(true);
+      isValid = false;
+    }
+    if (!note) {
+      setNoteError(true);
+      isValid = false;
+    }
+    if (!percent) {
+      setPercentError(true);
       isValid = false;
     }
 
@@ -275,7 +284,7 @@ export default function AddInvoice() {
                 mode="dropdown"
               >
                 {carstypesData.map((item) => (
-                  <Picker.Item label={item.type} value={item.type} />
+                  <Picker.Item key={item.id} label={item.type} value={item.type} />
                 ))}
               </Picker>
             </Div>
@@ -345,11 +354,22 @@ export default function AddInvoice() {
               value={note}
               onchangetext={(text) => setNote(text)}
             />
+            {noteError && <Text color="red500">{t("fieldrequired")}</Text>}
+
+
+
+
             <CustomInput
               placeholder={t("percent")}
               value={percent}
               onchangetext={(text) => setPercent(text)}
             />
+
+
+          {percentError && <Text color="red500">{t("fieldrequired")}</Text>}
+
+
+
 
             <Div flexDir="row" justifyContent="space-between" mt={30}>
               <CustomDateButton

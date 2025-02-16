@@ -8,12 +8,16 @@ import DataProvider from "./app/ContextData/DataProvider";
 import AppNavigator from "./app/components/AppNavigator";
 import Toast from "react-native-toast-message";
 
-
+import { useState } from "react";
+import IntroApp from "./app/components/IntroApp/IntroApp";
 
 
 export default function App() {
-  const Stack = createNativeStackNavigator();
 
+  const [isIntroCompleted, setIsIntroCompleted] = useState(false);
+  const handleIntroCompletion = () => {
+    setIsIntroCompleted(true);
+  };
   return (
 
 
@@ -23,7 +27,12 @@ export default function App() {
         <DataProvider>
           <AuthContext>
             <ServicesContext>
+              {/* <AppNavigator /> */}
+              {isIntroCompleted ? (
               <AppNavigator />
+            ) : (
+              <IntroApp onDone={handleIntroCompletion} />
+            )}
               <Toast />
             </ServicesContext>
           </AuthContext>
