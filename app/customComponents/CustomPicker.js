@@ -4,13 +4,7 @@ import { Button, Div, Dropdown } from "react-native-magnus";
 import Colors from "../config/Colors";
 import { ScrollView } from "react-native";
 
-export default function CustomPicker({
-  items,
-  displayKey,
-  selectedItem,
-  onPress = () => {},
-  selectoption,
-}) {
+export default function CustomPicker({items,displayKey,selectedItem,onPress = () => {},selectoption}) {
   const { t } = useTranslation();
   const dropdownRef = React.createRef();
 
@@ -24,11 +18,14 @@ export default function CustomPicker({
     <Div my={5}>
       <Button
         block
-        bg={Colors.primary}
+        
+        bg='transparent'
         mt="sm"
         p="md"
-        h={45}
-        color="white"
+        h={60}
+        borderColor={Colors.primary}
+        borderWidth={1}
+        color={Colors.primary}
         fontWeight="semibold"
         onPress={() => dropdownRef.current.open()}
       >
@@ -46,7 +43,7 @@ export default function CustomPicker({
           {items.map((item) => (
             <Dropdown.Option py={0} px="xl" my={5} block key={item.id}>
               <Button
-                bg={Colors.primary}
+                bg={Colors.secondary}
                 fontWeight="bold"
                 w="100%"
                 h={65}

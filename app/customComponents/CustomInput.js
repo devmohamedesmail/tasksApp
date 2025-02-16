@@ -27,7 +27,7 @@ export default function CustomInput({
 
   return (
 
-    <Div my={10}>
+    <Div mt={20}>
       <Text mx={5} mb={4}>{placeholder}</Text>
       <Input
         placeholder={placeholder}

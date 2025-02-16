@@ -203,5 +203,7 @@
   "running":"Running",
   "new-car-type":"Add New Car Type",
   "selectcartype":"Select Car Type",
-  "loginsuccessfully":"Login Successfully"
+  "loginsuccessfully":"Login Successfully",
+  "fieldrequired":"This Field Is Required",
+  "thankyou":"Thank You"
 }
