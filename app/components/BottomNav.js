@@ -34,7 +34,7 @@ export default function BottomNav() {
 
 
       <Div bg="white" position="relative" roundedBottomLeft={50} roundedBottomRight={50} w={80} mb={20} flexDir="row" justifyContent="center" >
-        <Button mb={45} p={0} bg={Colors.secondary} w={60} h={60} rounded="circle" position="absolute" top={-20} 
+        <Button mb={45} p={0} bg={Colors.primary} w={60} h={60} rounded="circle" position="absolute" top={-20} 
            onPress={() => navigation.navigate('Home')}>
           <Feather name="home" size={24} color="white" />
         </Button>

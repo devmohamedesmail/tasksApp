@@ -26,11 +26,13 @@ export default function Home() {
 
 
 
-
+  if (!auth || !auth.user) {
+    return <Login />;
+  }
   return (
     <Div flex={1}>
       <ScrollDiv bg={Colors.screen}> 
-        {auth && auth.user.role === 'admin' || auth.user.role === 'sales' || auth.user.role === 'accountant' ? (
+        {auth && auth.user && auth.user.role === 'admin' || auth.user.role === 'sales' || auth.user.role === 'accountant' ? (
            <Div p={10}>
           
            <Div row justifyContent="space-between" flexWrap="wrap" mt={30}>

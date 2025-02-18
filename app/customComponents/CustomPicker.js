@@ -43,10 +43,13 @@ export default function CustomPicker({items,displayKey,selectedItem,onPress = ()
           {items.map((item) => (
             <Dropdown.Option py={0} px="xl" my={5} block key={item.id}>
               <Button
-                bg={Colors.secondary}
+                bg="white"
+                color={Colors.primary}
+                borderBottomWidth={1}
                 fontWeight="bold"
                 w="100%"
-                h={65}
+                h={60}
+                p={0}
                 onPress={() => handleSelect(item)}
               >
                 {item[displayKey]}
