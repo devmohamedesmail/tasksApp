@@ -1,18 +1,20 @@
-import React, { useState } from 'react'
-import { ActivityIndicator, Alert, ScrollView, View, StyleSheet } from 'react-native'
-import { PublicStyles } from '../styles/PublicStyles'
-import CustomInput from '../customComponents/CustomInput'
-import CustomButton from '../customComponents/CustomButton';
-
+import React, { useContext, useState } from 'react'
+import { ActivityIndicator} from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContextData } from '../../ContextData/AuthContext';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import BackendData from '../../utilities/BackendData';
 import { useTranslation } from 'react-i18next';
-import BackendData from '../utilities/BackendData';
-import Header from '../components/Header';
-import { Div,ScrollDiv,Text } from 'react-native-magnus';
-import CustomRedirectButton from '../customComponents/CustomRedirectButton';
-import Logo from '../components/Logo';
-import Colors from '../config/Colors';
+import { Div, ScrollDiv,Text } from 'react-native-magnus';
+import CustomRedirectButton from '../../customComponents/CustomRedirectButton';
+import Toast from 'react-native-toast-message';
+import CustomButton from '../../customComponents/CustomButton';
+import CustomInput from '../../customComponents/CustomInput';
+
+
+
+
 
 export default function Register() {
     const [name, setName] = useState('');
@@ -68,9 +70,3 @@ export default function Register() {
 }
 
 
-const styles = StyleSheet.create({
-    loginContainer: {
-        paddingTop: 50,
-
-    }
-})

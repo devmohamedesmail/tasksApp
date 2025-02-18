@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React, { useContext } from 'react'
 import Home from '../screens/Home/Home';
-import Login from '../screens/Login';
-import Register from '../screens/Register';
+import Login from '../screens/Auth/Login';
+import Register from '../screens/Auth/Register';
 import AddInvoice from '../screens/AccountantScreens/AddInvoice';
 import Invoices from '../screens/AccountantScreens/Invoices';
 import InvoiceDetails from '../screens/AccountantScreens/InvoiceDetails';
@@ -12,9 +12,9 @@ import AddProblem from '../screens/AccountantScreens/AddProblem';
 import InvoicesDataDetails from '../screens/AccountantScreens/InvoicesDataDetails';
 import Problems from '../screens/Staff/Problems';
 import Staff from '../screens/Staff/Staff';
-import Profile from '../screens/Profile';
+import Profile from '../screens/Auth/Profile';
 import StaffDetails from '../screens/Staff/StaffDetails';
-import { AuthContextData } from '../ContextData/AuthContext';
+
 import Statistics from '../screens/Statistics/Statistics';
 import JobCards from '../screens/AccountantScreens/JobCards';
 import DrawerComponent from './DrawerComponent';
@@ -22,21 +22,9 @@ import { useTranslation } from 'react-i18next';
 
 export default function AppNavigator() {
     const Stack = createNativeStackNavigator();
-    const [auth] = useContext(AuthContextData);
+    
     const { t } = useTranslation();
 
-
-    // if (!auth || !auth.user) {
-    //     return (
-    //         <Stack.Navigator initialRouteName="Login">
-    //             <Stack.Screen
-    //                 name="Login"
-    //                 component={Login}
-    //                 options={{ headerShown: false }}
-    //             />
-    //         </Stack.Navigator>
-    //     );
-    // }
 
 
     return (

@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AuthContextData } from "../ContextData/AuthContext";
-import CustomButton from "../customComponents/CustomButton";
+import { AuthContextData } from "../../ContextData/AuthContext";
+import CustomButton from "../../customComponents/CustomButton";
 import { useNavigation } from "@react-navigation/native";
-import BackendData from "../utilities/BackendData";
+import BackendData from "../../utilities/BackendData";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import BottomNav from "../components/BottomNav";
+import BottomNav from "../../components/BottomNav";
 import { Div, Text, Image, ScrollDiv } from "react-native-magnus";
-import ItemSkeletion from "./Skeletons/ItemSkeletion";
-import ToggleLangButton from "../components/TogglelangButton/ToggleLangButton";
-import Colors from "../config/Colors";
+import ItemSkeletion from "../Skeletons/ItemSkeletion";
+import ToggleLangButton from "../../components/TogglelangButton/ToggleLangButton";
+import Colors from "../../config/Colors";
 import { ActivityIndicator } from "react-native";
 
 
@@ -88,7 +88,7 @@ export default function Profile() {
             m={10}
             alignSelf="center"
             rounded="circle"
-            source={require("../../assets/images/profile.png")}
+            source={require("./images/profile.png")}
           />
 
           <Div row justifyContent="center" my={10}>

@@ -14,6 +14,7 @@ import staff from "./icons/users.png"
 import { AuthContextData } from "../../ContextData/AuthContext";
 import { Div, ScrollDiv,Text } from "react-native-magnus";
 import Colors from "../../config/Colors";
+import Login from "../Auth/Login";
 
 
 
@@ -29,26 +30,32 @@ export default function Home() {
   return (
     <Div flex={1}>
       <ScrollDiv bg={Colors.screen}> 
-        <Div p={10}>
+        {auth && auth.user.role === 'admin' || auth.user.role === 'sales' || auth.user.role === 'accountant' ? (
+           <Div p={10}>
           
-          <Div row justifyContent="space-between" flexWrap="wrap" mt={30}>
-            <CustomHomeCard 
-              bg='blue400' 
-              title={t('statistics')} 
-              image={statistics} 
-              onPress={() => navigation.navigate('Statistics')}
-               />
-            <CustomHomeCard bg='yellow600' title={t('invoices')} image={invoice} onPress={() => navigation.navigate('Invoices')} />
-            <CustomHomeCard bg='orange600' title={t('addinvoice')} image={addinvoice} onPress={() => navigation.navigate('AddInvoice')} />
-            <CustomHomeCard bg='green600' title={t('carsstatus')} image={carstatus} onPress={() => navigation.navigate('InvoicesData')} />
-            <CustomHomeCard bg='purple600' title={t('problems')} image={car} onPress={() => navigation.navigate('Problems')} />
-            <CustomHomeCard bg='purple600' title={t('jobcards')} image={card} onPress={() => navigation.navigate('JobCards')} />
-            {auth && auth.user.role === 'admin' ? (
-              <CustomHomeCard bg='red600' title={t('employees')} image={staff} onPress={() => navigation.navigate('Staff')} />
-            ) : (<></>)}
-            <CustomHomeCard bg='blue600' title={t('profile')} image={boy} onPress={() => navigation.navigate('Profile')} />
-          </Div>
-        </Div>
+           <Div row justifyContent="space-between" flexWrap="wrap" mt={30}>
+             <CustomHomeCard 
+               bg='blue400' 
+               title={t('statistics')} 
+               image={statistics} 
+               onPress={() => navigation.navigate('Statistics')}
+                />
+             <CustomHomeCard bg='yellow600' title={t('invoices')} image={invoice} onPress={() => navigation.navigate('Invoices')} />
+             <CustomHomeCard bg='orange600' title={t('addinvoice')} image={addinvoice} onPress={() => navigation.navigate('AddInvoice')} />
+             <CustomHomeCard bg='green600' title={t('carsstatus')} image={carstatus} onPress={() => navigation.navigate('InvoicesData')} />
+             <CustomHomeCard bg='purple600' title={t('problems')} image={car} onPress={() => navigation.navigate('Problems')} />
+             <CustomHomeCard bg='purple600' title={t('jobcards')} image={card} onPress={() => navigation.navigate('JobCards')} />
+             {auth && auth.user.role === 'admin' ? (
+               <CustomHomeCard bg='red600' title={t('employees')} image={staff} onPress={() => navigation.navigate('Staff')} />
+             ) : (<></>)}
+             <CustomHomeCard bg='blue600' title={t('profile')} image={boy} onPress={() => navigation.navigate('Profile')} />
+           </Div>
+         </Div>
+        ):(
+          <Login />
+        )}
+
+       
       </ScrollDiv>
       <BottomNav />
     </Div>

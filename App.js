@@ -10,6 +10,7 @@ import Toast from "react-native-toast-message";
 
 import { useState } from "react";
 import IntroApp from "./app/components/IntroApp/IntroApp";
+import BottomNav from "./app/components/BottomNav";
 
 
 export default function App() {
@@ -27,7 +28,8 @@ export default function App() {
         <DataProvider>
           <AuthContext>
             <ServicesContext>
-              <AppNavigator />
+            
+            <AppNavigator />
               {/* {isIntroCompleted ? (
               <AppNavigator />
             ) : (
@@ -39,6 +41,7 @@ export default function App() {
         </DataProvider>
 
     </NavigationContainer>
+   
 
   );
 }

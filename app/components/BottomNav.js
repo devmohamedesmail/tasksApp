@@ -1,67 +1,63 @@
-import React, { useContext, useState } from "react";
-import { AntDesign } from "@expo/vector-icons";
-import { FontAwesome6 } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
+import React, { useState } from "react";
+
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import CustomBottomNavBtn from "../customComponents/CustomBottomNavBtn";
-import { Div } from "react-native-magnus";
+import { Button, Div } from "react-native-magnus";
 import Colors from "../config/Colors";
-import { useNavigationState } from '@react-navigation/native';
+import Feather from '@expo/vector-icons/Feather';
+import EvilIcons from '@expo/vector-icons/EvilIcons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
-
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 
 
 export default function BottomNav() {
+
+
   const navigation = useNavigation();
   const { t } = useTranslation()
 
 
 
- // Automatically determine the active screen based on navigation state
- const activeScreen = useNavigationState(state => state.routes[state.index].name);
-
- const getButtonStyles = (screenName) => ({
-   bg: activeScreen === screenName ? Colors.primary : 'white',
-   text: activeScreen === screenName ? 'white' : Colors.primary,
- });
-
-
-
   return (
-    <Div h={70} row bg='white' borderTopWidth={1} borderTopColor="gray400" justifyContent="center" alignItems="center">
-       <Div row>
-        <CustomBottomNavBtn
-          icon={<AntDesign name="home" size={26} color={activeScreen === 'Home' ? Colors.titary : Colors.primary} />}
-          title={t('home')}
-          onPress={() => navigation.navigate('Home')}
-          {...getButtonStyles('Home')}
-        />
+    <Div h={70} bg="gray200" flexDir="row" justifyContent="space-between" px={10}>
 
-        <CustomBottomNavBtn
-          icon={<FontAwesome6 name="file-invoice-dollar" size={27} color={activeScreen === 'Invoices' ? Colors.titary : Colors.primary} />}
-          title={t('invoices')}
-          onPress={() => navigation.navigate('Invoices')}
-          {...getButtonStyles('Invoices')}
-        />
+      <CustomBottomNavBtn
+        title={t('invoices')}
+        icon={<FontAwesome5 name="file-invoice" size={24} color="black" />}
+        onPress={() => navigation.navigate('Invoices')}
+      />
+     
 
-        <CustomBottomNavBtn
-          icon={<FontAwesome5 name="car-alt" size={26} color={activeScreen === 'InvoicesData' ? Colors.titary  : Colors.primary} />}
-          title={t('carsstatus')}
-          onPress={() => navigation.navigate('InvoicesData')}
-          {...getButtonStyles('InvoicesData')}
-        />
 
-        <CustomBottomNavBtn
-          icon={<AntDesign name="user" size={26} color={activeScreen === 'Profile' ? Colors.titary  : Colors.primary} />}
-          title={t('profile')}
-          onPress={() => navigation.navigate('Profile')}
-          {...getButtonStyles('Profile')}
-        />
+
+      <Div bg="white" position="relative" roundedBottomLeft={50} roundedBottomRight={50} w={80} mb={20} flexDir="row" justifyContent="center" >
+        <Button mb={45} p={0} bg={Colors.secondary} w={60} h={60} rounded="circle" position="absolute" top={-20} 
+           onPress={() => navigation.navigate('Home')}>
+          <Feather name="home" size={24} color="white" />
+        </Button>
       </Div>
+
+
+
+
+
+
+      
+      <CustomBottomNavBtn
+        title={t('account')}
+        icon={<AntDesign name="user" size={24} color="black" />}
+        onPress={() => navigation.navigate('Profile')}
+      />
+
+
     </Div>
+
+
+
+
   );
 }
-
 

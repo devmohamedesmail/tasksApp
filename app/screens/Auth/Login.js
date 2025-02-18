@@ -1,20 +1,17 @@
 import React, { useContext, useState } from 'react'
 import { ActivityIndicator} from 'react-native'
-import CustomInput from '../customComponents/CustomInput'
-import CustomButton from '../customComponents/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AuthContextData } from '../ContextData/AuthContext';
+import { AuthContextData } from '../../ContextData/AuthContext';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
-import BackendData from '../utilities/BackendData';
+import BackendData from '../../utilities/BackendData';
 import { useTranslation } from 'react-i18next';
-import Logo from '../components/Logo';
 import { Div, ScrollDiv,Text } from 'react-native-magnus';
-import CustomRedirectButton from '../customComponents/CustomRedirectButton';
-import Colors from '../config/Colors';
+import CustomRedirectButton from '../../customComponents/CustomRedirectButton';
 import Toast from 'react-native-toast-message';
-
-
+import CustomButton from '../../customComponents/CustomButton';
+import CustomInput from '../../customComponents/CustomInput';
+import Logo from '../../components/Logo';
 
 export default function Login() {
     const [email, setEmail] = useState('');

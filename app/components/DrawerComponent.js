@@ -6,8 +6,7 @@ import Colors from '../config/Colors';
 import DrawerItem from '../customComponents/CustomItems/DrawerItem';
 import { AuthContextData } from '../ContextData/AuthContext';
 import Logo from './Logo';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function DrawerComponent() {
     const drawerRef = React.createRef();
@@ -81,7 +80,8 @@ export default function DrawerComponent() {
                     }
                 }}
             >
-                <MaterialCommunityIcons name="view-dashboard" size={24} color={Colors.titary} />
+                <AntDesign name="bars" size={24}  color={Colors.titary} />
+                
             </Button>
         </Div>
     )
