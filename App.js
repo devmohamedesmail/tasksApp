@@ -27,12 +27,12 @@ export default function App() {
         <DataProvider>
           <AuthContext>
             <ServicesContext>
-              {/* <AppNavigator /> */}
-              {isIntroCompleted ? (
+              <AppNavigator />
+              {/* {isIntroCompleted ? (
               <AppNavigator />
             ) : (
               <IntroApp onDone={handleIntroCompletion} />
-            )}
+            )} */}
               <Toast />
             </ServicesContext>
           </AuthContext>

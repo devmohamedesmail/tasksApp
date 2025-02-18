@@ -1,18 +1,19 @@
 import React from 'react'
 import { Button, Div, Text, Image } from 'react-native-magnus'
+import Colors from '../config/Colors'
 
-export default function CustomHomeCard({ image, title, onPress, bg }) {
+export default function CustomHomeCard({ image, title, onPress }) {
 
   return (
-    <Button w='32%' my={5} column rounded="2xl" bg={bg} shadow={20} onPress={onPress}>
-      <Div justifyContent='center' alignItems='center'>
+    <Button w='32%' my={5} column rounded="xl" bg="white" borderColor='gray400' borderWidth={1} shadow={20} p={0} onPress={onPress}>
+      <Div justifyContent='center' alignItems='center'  w="100%" p={5} pb={14}>
         <Image
-          h={70}
-          w={70}
-          m={10}
+          h={100}
+          w={100}
+          m={5}
           source={image}
         />
-        <Text fontWeight='bold' fontSize={12} color='white' >{title}</Text>
+        <Text fontWeight='bold' color={Colors.primary} mt={6} fontSize={12}  >{title}</Text>
       </Div>
     </Button>
 

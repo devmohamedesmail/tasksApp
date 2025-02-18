@@ -9,7 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@expo/vector-icons": "^14.0.2",
+    "@expo/vector-icons": "^14.0.4",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/datetimepicker": "^8.3.0",
     "@react-native-picker/picker": "2.9.0",
@@ -20,7 +20,6 @@
     "curved-bottom-navigation-bar": "^2.0.5",
     "date-fns": "^3.6.0",
     "expo": "^52.0.23",
-    "expo-av": "~15.0.1",
     "expo-constants": "~17.0.3",
     "expo-device": "~7.0.1",
     "expo-font": "~13.0.2",
@@ -39,12 +38,12 @@
     "react-native": "0.76.5",
     "react-native-app-intro-slider": "^4.0.4",
     "react-native-chart-kit": "^6.12.0",
+    "react-native-curved-bottom-bar": "^3.4.1",
     "react-native-magnus": "^1.0.63",
     "react-native-modal": "^13.0.1",
     "react-native-progress": "^5.0.1",
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.4.0",
-    "react-native-svg": "15.8.0",
     "react-native-toast-message": "^2.2.1"
   },
   "devDependencies": {
