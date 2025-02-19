@@ -78,7 +78,7 @@ export default function InvoiceItem({
         w={45}
         h={45}
         onPress={() => dropdownRef.current.open()}>
-        <Entypo name="dots-three-vertical" size={24} color={Colors.titary} />
+        <Entypo name="dots-three-vertical" size={24} color="white" />
       </Button>
 
       <Dropdown

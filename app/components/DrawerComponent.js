@@ -80,7 +80,7 @@ export default function DrawerComponent() {
                     }
                 }}
             >
-                <AntDesign name="bars" size={24}  color={Colors.titary} />
+                <AntDesign name="bars" size={24}  color="white" />
                 
             </Button>
         </Div>

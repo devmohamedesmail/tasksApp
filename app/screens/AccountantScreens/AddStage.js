@@ -1,6 +1,6 @@
 import { useRoute } from "@react-navigation/native";
 import React, { useContext, useEffect, useState } from "react";
-import {  Alert,ActivityIndicator,} from "react-native";
+import { Alert, ActivityIndicator, } from "react-native";
 import { DataContext } from "../../ContextData/DataProvider";
 import CustomPicker from "../../customComponents/CustomPicker";
 import CustomDateTimePicker from "../../customComponents/CustomDateTimePicker";
@@ -11,9 +11,9 @@ import BackendData from "../../utilities/BackendData";
 import CustomMultiSelect from "../../customComponents/CustomMultiSelect";
 import CustomDateButton from "../../customComponents/CustomDateButton";
 import BottomNav from "../../components/BottomNav";
-import { Div,ScrollDiv} from "react-native-magnus";
+import { Div, ScrollDiv, Text } from "react-native-magnus";
 import Colors from "../../config/Colors";
-
+import { IndexPath, Layout, Select, SelectItem } from '@ui-kitten/components';
 
 export default function AddStage() {
   const route = useRoute();
@@ -107,16 +107,22 @@ export default function AddStage() {
 
   return (
     <Div flex={1}>
-      <ScrollDiv bg={Colors.light}>
+      <ScrollDiv bg={Colors.screen}>
         <Div py={30} px={10}>
-        
-          <CustomPicker
-            items={carProcess}
-            selectedItem={stage}
-            onSelect={handleSelectStage}
-            displayKey="process"
-            selectoption={t('stagename')}
-          />
+
+          <Text textAlign="center" fontSize={20} fontWeight="bold" mb={30}>{t('addstage')}</Text>
+
+
+          <Div my={20}>
+            <CustomPicker
+              items={carProcess}
+              selectedItem={stage}
+              onSelect={handleSelectStage}
+              displayKey="process"
+              selectoption={t('stagename')}
+            />
+          </Div>
+
 
 
 

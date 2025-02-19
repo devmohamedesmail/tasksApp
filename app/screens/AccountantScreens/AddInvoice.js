@@ -205,10 +205,10 @@ export default function AddInvoice() {
 
   return (
     <Div flex={1}>
-      <ScrollDiv bg={Colors.screen} px={10}>
+      <ScrollDiv bg={Colors.screen} px={10} pb={100}>
 
         {sales ? (
-          <Div>
+          <Div pb={100}>
             <Text fontWeight="bold" textAlign="center" my={23} fontSize={15}>
               {t("addinvoice")}
             </Text>

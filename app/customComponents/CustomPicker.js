@@ -40,7 +40,7 @@ export default function CustomPicker({items,displayKey,selectedItem,onPress = ()
         roundedTop="xl"
       >
         
-          {items.map((item) => (
+          {items && items.map((item) => (
             <Dropdown.Option py={0} px="xl" my={5} block key={item.id}>
               <Button
                 bg="white"

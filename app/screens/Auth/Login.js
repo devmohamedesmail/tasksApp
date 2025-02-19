@@ -74,7 +74,7 @@ export default function Login() {
         <Div style={{ flex: 1 }}>
             <ScrollDiv px={10} bg={Colors.screen}>
                 <Div>
-                    <Div mt={100} >
+                    <Div mt={50} >
                         <Logo />
 
                         <Text fontSize={20} fontWeight='bold' my={20} textAlign='center'>{t('login')}</Text>

@@ -11,8 +11,7 @@ import CustomRedirectButton from '../../customComponents/CustomRedirectButton';
 import Toast from 'react-native-toast-message';
 import CustomButton from '../../customComponents/CustomButton';
 import CustomInput from '../../customComponents/CustomInput';
-
-
+import Logo from '../../components/Logo';
 
 
 
@@ -47,8 +46,7 @@ export default function Register() {
 
     return (
         <ScrollDiv bg={Colors.screen} px={10}>
-            <Div>
-               
+            <Div>  
                 <Div mt={50}>
                     <Logo />
                       <Text fontWeight='bold' fontSize={15} m='auto' textAlign='center' mb={20}>{t('register')}</Text>

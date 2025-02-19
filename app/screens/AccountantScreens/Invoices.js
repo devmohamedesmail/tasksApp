@@ -7,12 +7,12 @@ import { useTranslation } from "react-i18next";
 import { AuthContextData } from "../../ContextData/AuthContext";
 import axios from "axios";
 import BottomNav from "../../components/BottomNav";
-import { Div, ScrollDiv, Text, Input, Icon } from 'react-native-magnus'
+import { Div, ScrollDiv, Text, Input, Icon, Button } from 'react-native-magnus'
 import InvoiceSkeleton from "../Skeletons/InvoiceSkeleton";
 
 import Colors from "../../config/Colors";
 import InvoiceItem from "../../customComponents/CustomItems/InvoiceItem";
-
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { debounce } from "lodash";
 
 export default function Invoices() {
@@ -77,7 +77,6 @@ const deleteInvoice = async (InvoiceID) => {
     await axios.delete(`${BackendData.url}delete/invoice/${InvoiceID}`);
     fetchInvoices();
   } catch (error) {
-    console.log(error);
     Alert.alert(t('problemhappened'));
   }
 };
@@ -85,7 +84,7 @@ const deleteInvoice = async (InvoiceID) => {
 
   return (
     <Div flex={1}>
-      <ScrollDiv bg={Colors.light}>
+      <Div bg={Colors.light}>
         <Div p={10}>
 
 
@@ -95,7 +94,7 @@ const deleteInvoice = async (InvoiceID) => {
             h={60}
             focusBorderColor={Colors.primary}
             onChangeText={(text) => handleSearchInvoice(text)}
-            suffix={<Icon name="search" color="gray900" fontFamily="Feather" />}
+            suffix={<Button w={40} h={40} onPress={() => handleSearchInvoice()} bg={Colors.primary} p={0} ><AntDesign name="search1" size={20} color="white" /></Button>}
           />
 
 
@@ -123,10 +122,10 @@ const deleteInvoice = async (InvoiceID) => {
               />
             )}
             keyExtractor={(item) => item.id.toString()}
-            ListEmptyComponent={<Text fontWeight="bold" textAlign="center">{t('no-data')}</Text>}
+            ListEmptyComponent={<InvoiceSkeleton />}
           />
         </Div>
-      </ScrollDiv>
+      </Div>
       <BottomNav />
     </Div>
   );
