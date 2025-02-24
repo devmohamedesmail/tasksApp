@@ -4,13 +4,11 @@ import { PublicStyles } from '../../styles/PublicStyles'
 import { useTranslation } from 'react-i18next'
 import axios from 'axios';
 import BackendData from '../../utilities/BackendData';
-import InvoiceDetailsItem from '../AccountantScreens/InvoiceDetailsItem';
+// import InvoiceDetailsItem from '../Invoices/InvoiceDetailsItem';
+
 
 import BottomNav from '../../components/BottomNav';
-import Header from '../../components/Header';
 import { Div, ScrollDiv } from 'react-native-magnus';
-import BackButton from '../../components/BackButton';
-import DrawerComponent from '../../components/DrawerComponent';
 import InvoiceSkeleton from '../Skeletons/InvoiceSkeleton';
 import Colors from '../../config/Colors';
 

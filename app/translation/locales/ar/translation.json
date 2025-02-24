@@ -203,7 +203,8 @@
   "running": "جاري العمل",
   "new-car-type": "اضافه نوع سياره",
   "selectcartype": "اختر نوع السياره",
-  "loginsuccessfully":" تم تسجيل الدخول بنجاح",
-    "fieldrequired":" هذا الحقل مطلوب",
-  "thankyou":" شكرا لك"
+  "loginsuccessfully": " تم تسجيل الدخول بنجاح",
+  "fieldrequired": " هذا الحقل مطلوب",
+  "thankyou": " شكرا لك",
+  "logoutsuccessfully": " تم تسجيل الخروج بنجاح"
 }

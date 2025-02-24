@@ -1,20 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContextData } from "../../ContextData/AuthContext";
-import CustomButton from "../../customComponents/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import BackendData from "../../utilities/BackendData";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomNav from "../../components/BottomNav";
-import { Div, Text, Image, ScrollDiv } from "react-native-magnus";
+import { Div, Text, Image, ScrollDiv, Button } from "react-native-magnus";
 import ItemSkeletion from "../Skeletons/ItemSkeletion";
-import ToggleLangButton from "../../components/TogglelangButton/ToggleLangButton";
+
 import Colors from "../../config/Colors";
 import { ActivityIndicator } from "react-native";
-
-
-
+import AntDesign from '@expo/vector-icons/AntDesign';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Toast from "react-native-toast-message";
 
 export default function Profile() {
   const { t } = useTranslation();
@@ -60,15 +59,27 @@ export default function Profile() {
 
 
         await AsyncStorage.removeItem('userAuth');
-
+        Toast.show({
+          type: 'success',
+          text1: t('logoutsuccessfully'),
+          visibilityTime: 4000, 
+          autoHide: true,
+        })
         navigation.navigate('Login');
+        
 
       }
       setloading(false);
     } catch (error) {
       console.error('Logout failed', error);
+      Toast.show({
+        type: 'error',
+        text1: t('problemhappened'),
+        visibilityTime: 4000, 
+        autoHide: true,
+      })
       setloading(false);
-    }finally{
+    } finally {
       setloading(false);
     }
   };
@@ -78,10 +89,9 @@ export default function Profile() {
 
   return (
     <Div flex={1}>
-      <ScrollDiv bg={Colors.light} >
+      <ScrollDiv bg={Colors.screen} >
         <Div py={30} px={10}>
 
-        
           <Image
             h={100}
             w={100}
@@ -91,30 +101,61 @@ export default function Profile() {
             source={require("./images/profile.png")}
           />
 
-          <Div row justifyContent="center" my={10}>
+
+
+
+
+
+          <Div>
             {info ? (
-              <Text fontWeight="bold" fontSize={20}>{info.user.name}</Text>
-            ) : (
-              <ItemSkeletion />
-            )}
-          </Div>
-          <Div row justifyContent="center" my={10}>
-            {info ? (
-              <Text fontWeight="bold" fontSize={15}>{info.user.email}</Text>
-            ) : (
-              <ItemSkeletion />
-            )}
+              <>
+                <Div flexDir="row" py={20} alignItems="center" borderBottomColor="gray300" borderBottomWidth={1}>
+                  <AntDesign name="user" size={24} color="black" />
+                  <Text ml={20} fontSize={16}>{info.user.name}</Text>
+                </Div>
+
+
+                <Div flexDir="row" py={20} alignItems="center" borderBottomColor="gray300" borderBottomWidth={1}>
+                  <FontAwesome name="envelope-o" size={24} color="black" />
+                  <Text ml={20} fontSize={16}>{info.user.email}</Text>
+                </Div>
+
+
+
+              </>) :
+              (<ItemSkeletion />)}
           </Div>
 
-          <Div row justifyContent="center">
-            <ToggleLangButton />
-          </Div>
+
+
+
+
+
 
           <Div my={40}>
-          {loading ? <ActivityIndicator color={Colors.primary} size="large" /> : <CustomButton title={t('logout')} onpress={() => handlelogout()} />}
+            {loading ? <ActivityIndicator color={Colors.primary} size="large" /> :
+              <>
+                <Button
+                  mt="lg"
+                  onPress={() => handlelogout()}
+                  px="xl"
+                  py="lg"
+                  h={60}
+                  bg="red700"
+                  color="white"
+                  w="100%"
+                  fontWeight="bold"
+                  underlayColor="red600"
+                >
+                  {t('logout')}
+                </Button>
+              </>
+            }
           </Div>
-           
-          
+
+
+
+
 
         </Div>
       </ScrollDiv>

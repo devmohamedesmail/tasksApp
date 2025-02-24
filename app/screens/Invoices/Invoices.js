@@ -42,44 +42,44 @@ export default function Invoices() {
 
 
 
- // Optimized delete invoice function
- const handleDeleteInvoice = async (InvoiceID) => {
-  if (auth.user.role === "admin") {
-    try {
-      Alert.alert(
-        t("confirm"),
-        t("alertdelete"),
-        [
-          {
-            text: t("cancel"),
-            style: "cancel",
-          },
-          {
-            text: t("ok"),
-            onPress: async () => {
-              await deleteInvoice(InvoiceID);
+  // Optimized delete invoice function
+  const handleDeleteInvoice = async (InvoiceID) => {
+    if (auth.user.role === "admin") {
+      try {
+        Alert.alert(
+          t("confirm"),
+          t("alertdelete"),
+          [
+            {
+              text: t("cancel"),
+              style: "cancel",
             },
-          },
-        ]
-      );
+            {
+              text: t("ok"),
+              onPress: async () => {
+                await deleteInvoice(InvoiceID);
+              },
+            },
+          ]
+        );
+      } catch (error) {
+        console.log(error);
+        Alert.alert(t('problemhappened'));
+      }
+    } else {
+      Alert.alert(t('wrongpermission'));
+    }
+  };
+
+  // API call for deleting invoice
+  const deleteInvoice = async (InvoiceID) => {
+    try {
+      await axios.delete(`${BackendData.url}delete/invoice/${InvoiceID}`);
+      fetchInvoices();
     } catch (error) {
-      console.log(error);
       Alert.alert(t('problemhappened'));
     }
-  } else {
-    Alert.alert(t('wrongpermission'));
-  }
-};
-
-// API call for deleting invoice
-const deleteInvoice = async (InvoiceID) => {
-  try {
-    await axios.delete(`${BackendData.url}delete/invoice/${InvoiceID}`);
-    fetchInvoices();
-  } catch (error) {
-    Alert.alert(t('problemhappened'));
-  }
-};
+  };
 
 
   return (

@@ -7,16 +7,28 @@ import DrawerItem from '../customComponents/CustomItems/DrawerItem';
 import { AuthContextData } from '../ContextData/AuthContext';
 import Logo from './Logo';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import {I18nManager} from "react-native";
 
 export default function DrawerComponent() {
     const drawerRef = React.createRef();
     const navigation = useNavigation();
-    const { t } = useTranslation();
+    const { t ,i18n} = useTranslation();
     const [auth] = useContext(AuthContextData)
+
+
+
+    const toggleLanguage = () => {
+        const newLang = i18n.language === "en" ? "ar" : "en";
+        i18n.changeLanguage(newLang);
+        I18nManager.forceRTL(newLang === "ar");
+      };
+
+
+
     return (
         <Div>
             <Drawer ref={drawerRef} p={10} w="75%" bg="white" shadow={5}>
-                <Div mt={20}>
+                <Div mt={50}>
                     <Logo />
                 </Div>
 
@@ -68,6 +80,20 @@ export default function DrawerComponent() {
                     navigation.navigate('Profile');
                     drawerRef.current.close();
                 }} />
+
+
+
+
+                <DrawerItem title={i18n.language === "en" ? "عربي" : "English"} onPress={() => {
+                    toggleLanguage();
+                    drawerRef.current.close();
+                }} />
+
+
+
+
+
+
 
 
             </Drawer>

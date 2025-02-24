@@ -1,13 +1,12 @@
 import React from 'react'
-import { ScrollView, View, StyleSheet } from 'react-native'
+import {  StyleSheet } from 'react-native'
 import { PublicStyles } from '../../styles/PublicStyles'
 import { useRoute } from '@react-navigation/native'
-import InvoiceDetailsItem from '../AccountantScreens/InvoiceDetailsItem';
+// import InvoiceDetailsItem from '../Invoices/InvoiceDetailsItem';
 import { useTranslation } from 'react-i18next';
 import BottomNav from '../../components/BottomNav';
 import { Div, ScrollDiv, Text } from 'react-native-magnus';
-import BackButton from '../../components/BackButton';
-import DrawerComponent from '../../components/DrawerComponent';
+
 import Colors from '../../config/Colors';
 
 export default function StaffDetails() {

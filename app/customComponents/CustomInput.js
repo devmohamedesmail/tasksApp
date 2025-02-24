@@ -28,7 +28,7 @@ export default function CustomInput({
   return (
 
     <Div mt={20}>
-      <Text mx={5} mb={4}>{placeholder}</Text>
+      <Text mx={5} mb={6} fontWeight="bold">{placeholder}</Text>
       <Input
         placeholder={placeholder}
         value={value}

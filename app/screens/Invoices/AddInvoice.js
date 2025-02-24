@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ActivityIndicator, Alert, ScrollView, View, StyleSheet } from "react-native";
-import { PublicStyles } from "../../styles/PublicStyles";
+import { ActivityIndicator } from "react-native";
+
 import CustomInput from "../../customComponents/CustomInput";
 import CustomButton from "../../customComponents/CustomButton";
 import axios from "axios";
@@ -14,13 +14,14 @@ import CustomDateButton from "../../customComponents/CustomDateButton";
 import CustomAlert from "../../customComponents/CustomAlert";
 import BottomNav from "../../components/BottomNav";
 import { useNavigation } from "@react-navigation/native";
-import { Div, ScrollDiv, Text, Button, Icon } from "react-native-magnus";
+import { Div, ScrollDiv, Text, Button, Icon, Toggle } from "react-native-magnus";
 import { Picker } from "@react-native-picker/picker";
 import Colors from "../../config/Colors";
 import ServicesContext, { ServicesContextData, } from "../../ContextData/ServicesContext";
 import Modal from "react-native-modal";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Toast from "react-native-toast-message";
+
 
 export default function AddInvoice() {
   const [branch, setBranch] = useState();
@@ -36,6 +37,7 @@ export default function AddInvoice() {
   const [carNoError, setCarNoError] = useState(false);
   const [carType, setCartype] = useState("");
   const [carService, setService] = useState("");
+  const [carServiceError, setServiceError] = useState("");
   const [price, setPrice] = useState("");
   const [priceError, setPriceError] = useState(false);
   const [description, setCarDescription] = useState("");
@@ -51,15 +53,19 @@ export default function AddInvoice() {
   const [isPickerRdateVisible, setPickerRdateVisible] = useState(false);
   const [isPickerDdateVisible, setPickerDdateVisible] = useState(false);
   const { t } = useTranslation();
-  // const dropdownRef = React.createRef();
   const [newCarType, setNewCarType] = useState("");
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
-
   const { branches, fetchBranches, invoiceTypes, fetchInvoiceTypes, paidMethods, fetchPaidMethods, invoices, fetchInvoices } = useContext(DataContext);
-
   const { carstypesData, fetchCarsTypesData } = useContext(ServicesContextData);
+  const [on, toggle] = useState(false);
 
+
+
+
+
+
+  // ************************************ Handle form submission start ************************************
   const handleAddInvoie = async () => {
     let isValid = true;
 
@@ -86,6 +92,13 @@ export default function AddInvoice() {
       setNoteError(true);
       isValid = false;
     }
+
+
+    if (!carService) {
+      setServiceError(true);
+      isValid = false;
+    }
+
     if (!percent) {
       setPercentError(true);
       isValid = false;
@@ -99,12 +112,13 @@ export default function AddInvoice() {
 
 
     try {
-      
+
       setLoading(true);
       await axios.post(
         `${BackendData.url}add/new/invoice`,
-        {branch,invoiceType,name,phone,
-          description,note,address,carNo,carType,carService, price,sales,
+        {
+          branch, invoiceType, name, phone,
+          description, note, address, carNo, carType, carService, price, sales,
           percent,
           Rdate,
           Ddate,
@@ -147,6 +161,13 @@ export default function AddInvoice() {
     }
   };
 
+
+
+
+  // ************************************ Handle form submission start ************************************
+
+
+
   useEffect(() => {
     if (auth && auth.user) {
       setSales(auth.user.name);
@@ -156,7 +177,7 @@ export default function AddInvoice() {
   const handleSelectInvoiceType = (item) => {
     setInvoiceType(item.type);
     setInvoiceTypeItem(item);
-    
+
   };
   const handleSelectbranch = (item) => {
     setBranch(item.id);
@@ -202,6 +223,12 @@ export default function AddInvoice() {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
+
+
+
+
+
 
   return (
     <Div flex={1}>
@@ -290,9 +317,22 @@ export default function AddInvoice() {
             </Div>
 
 
+            <Div flexDir="row" justifyContent="space-between" my={20} px={10}>
+              <Text fontWeight="bold">{t("new-car-type")}</Text>
+              <Toggle
+                on={on}
+                onPress={() => toggle(!on)}
+                bg="gray200"
+                circleBg={Colors.primary}
+                activeBg={Colors.primary}
+                h={30}
+                w={60}
+              />
+            </Div>
 
 
-            <Div
+            {on && (
+              <Div
               flexDir="row"
               justifyContent="space-between"
               alignItems="center"
@@ -330,12 +370,20 @@ export default function AddInvoice() {
                 </Button>
               )}
             </Div>
+            )}
+
+            
 
             <CustomInput
               placeholder={t("carservice")}
               value={carService}
               onchangetext={(text) => setService(text)}
             />
+
+            {carServiceError && <Text color="red500">{t("fieldrequired")}</Text>}
+
+
+
             <CustomInput
               placeholder={t("price")}
               value={price}
@@ -366,7 +414,7 @@ export default function AddInvoice() {
             />
 
 
-          {percentError && <Text color="red500">{t("fieldrequired")}</Text>}
+            {percentError && <Text color="red500">{t("fieldrequired")}</Text>}
 
 
 
@@ -414,13 +462,13 @@ export default function AddInvoice() {
         )}
 
 
-   
+
 
 
 
 
         <Modal isVisible={isModalVisible} animationIn="slideInUp" animationOut="slideOutDown" >
-          <Div  bg="white" h={200} rounded="lg" px={20} py={20}>
+          <Div bg="white" h={200} rounded="lg" px={20} py={20}>
 
             <Div flexDir="row" justifyContent="flex-end">
               <Button onPress={toggleModal} bg="red700" p={3}>

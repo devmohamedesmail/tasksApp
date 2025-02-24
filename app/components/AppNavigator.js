@@ -1,24 +1,29 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React, { useContext } from 'react'
+import React from 'react'
 import Home from '../screens/Home/Home';
 import Login from '../screens/Auth/Login';
 import Register from '../screens/Auth/Register';
-import AddInvoice from '../screens/AccountantScreens/AddInvoice';
-import Invoices from '../screens/AccountantScreens/Invoices';
-import InvoiceDetails from '../screens/AccountantScreens/InvoiceDetails';
-import EditInvoice from '../screens/AccountantScreens/EditInvoice';
-import AddStage from '../screens/AccountantScreens/AddStage';
-import AddProblem from '../screens/AccountantScreens/AddProblem';
-import InvoicesDataDetails from '../screens/AccountantScreens/InvoicesDataDetails';
 import Problems from '../screens/Staff/Problems';
 import Staff from '../screens/Staff/Staff';
 import Profile from '../screens/Auth/Profile';
 import StaffDetails from '../screens/Staff/StaffDetails';
-
 import Statistics from '../screens/Statistics/Statistics';
-import JobCards from '../screens/AccountantScreens/JobCards';
 import DrawerComponent from './DrawerComponent';
 import { useTranslation } from 'react-i18next';
+import AddInvoice from '../screens/Invoices/AddInvoice';
+import Invoices from '../screens/Invoices/Invoices';
+import InvoiceDetails from '../screens/Invoices/InvoiceDetails';
+import EditInvoice from '../screens/Invoices/EditInvoice';
+import AddStage from '../screens/Invoices/AddStage';
+import AddProblem from '../screens/Invoices/AddProblem';
+import InvoicesDataDetails from '../screens/Invoices/InvoicesDataDetails';
+import JobCards from '../screens/Invoices/JobCards';
+
+
+
+
+
+
 
 export default function AppNavigator() {
     const Stack = createNativeStackNavigator();

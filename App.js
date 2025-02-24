@@ -15,6 +15,7 @@ export default function App() {
   return (
 
 
+
     <NavigationContainer>
       <StatusBar backgroundColor="black" />
         <DataProvider>
